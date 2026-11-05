@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum – Toni's Automobile</title>
+</head>
+<body>
+  <h1>Impressum</h1>
+
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    Toni's Automobile<br>
+    Inhaber: Adnan Osaj<br>
+    Olga-Heubeck-Weg 15<br>
+    42279 Wuppertal
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Telefon: +49 176 83412627<br>
+    E-Mail: tonisautomobile1@gmail.com</p>
+
+  <h2>Umsatzsteuer</h2>
+  <p>
+    Als Kleinunternehmer im Sinne von § 19 UStG wird keine
+    Umsatzsteuer berechnet.
+  </p>
+</body>
+</html>
