@@ -427,6 +427,12 @@ document.getElementById('reviewForm').addEventListener('submit', async event => 
   message.textContent = 'Bewertung wird gesendet …';
 
   const {error} = await db.from('bewertungen').insert({
+  Name: document.getElementById('reviewName').value.trim(),
+  Sterne: Number(document.getElementById('reviewStars').value),
+  Kommentar: document.getElementById('reviewComment').value.trim(),
+  Freigeben: false,
+  Einwilligung: document.getElementById('reviewConsent').checked
+});
     Name: document.getElementById('reviewName').value.trim(),
     Sterne: Number(document.getElementById('reviewStars').value),
     Kommentar: document.getElementById('reviewComment').value.trim(),
