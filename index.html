@@ -68,7 +68,33 @@ small{color:#aaa}
   <h2>Unsere Fahrzeuge</h2>
   <div id="cars" class="grid">Fahrzeuge werden geladen …</div>
 </section>
+<section id="bewertungen">
+  <h2>Kundenbewertungen</h2>
+  <div class="panel">
+    <p>Deine Meinung ist uns wichtig! Teile deine Erfahrung mit Toni's Automobile.</p>
 
+    <form id="reviewForm">
+      <label for="reviewName">Dein Name</label>
+      <input id="reviewName" type="text" maxlength="80" required>
+
+      <label for="reviewStars">Deine Bewertung</label>
+      <select id="reviewStars" required>
+        <option value="5">★★★★★ – Sehr gut</option>
+        <option value="4">★★★★ – Gut</option>
+        <option value="3">★★★ – Mittel</option>
+        <option value="2">★★ – Schlecht</option>
+        <option value="1">★ – Sehr schlecht</option>
+      </select>
+
+      <label for="reviewComment">Dein Kommentar</label>
+      <textarea id="reviewComment" maxlength="1000" required></textarea>
+
+      <button class="button" type="submit">Bewertung absenden</button>
+      <p id="reviewMessage"></p>
+    </form>
+  </div>
+  <div id="reviewsList"></div>
+</section>
 <section id="kontakt">
   <h2>Kontakt</h2>
   <div class="panel">
@@ -367,7 +393,51 @@ async function deleteCar(id) {
 db.auth.onAuthStateChange((_event, session) => {
   if (!session) showLoggedOut();
 });
+async function loadReviews() {
+  const list = document.getElementById('reviewsList');
+  const {data, error} = await db
+    .from('bewertungen')
+    .select('*')
+    .eq('Freigeben', true)
+    .order('created_at', {ascending: false});
 
+  if (error) {
+    list.textContent = 'Bewertungen konnten nicht geladen werden.';
+    return;
+  }
+
+  list.innerHTML = data.map(review => `
+    <div class="panel">
+      <strong>${esc(review.Name)}</strong>
+      <p>${'★'.repeat(Number(review.Sterne))}${'☆'.repeat(5 - Number(review.Sterne))}</p>
+      <p>${esc(review.Kommentar)}</p>
+    </div>
+  `).join('') || '<p>Noch keine freigegebenen Bewertungen.</p>';
+}
+
+document.getElementById('reviewForm').addEventListener('submit', async event => {
+  event.preventDefault();
+
+  const message = document.getElementById('reviewMessage');
+  message.textContent = 'Bewertung wird gesendet …';
+
+  const {error} = await db.from('bewertungen').insert({
+    Name: document.getElementById('reviewName').value.trim(),
+    Sterne: Number(document.getElementById('reviewStars').value),
+    Kommentar: document.getElementById('reviewComment').value.trim(),
+    Freigeben: false
+  });
+
+  if (error) {
+    message.textContent = 'Fehler beim Senden: ' + error.message;
+    return;
+  }
+
+  message.textContent = 'Vielen Dank! Deine Bewertung wird nach Prüfung veröffentlicht.';
+  event.target.reset();
+});
+
+loadReviews();
 loadCars();
 checkAdmin();
 </script>
