@@ -1,50 +1,179 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Toni's Automobile – Luxury Cars</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-:root{--bg:#0b0d10;--panel:#15191f;--gold:#c8a96b;--muted:#a6a6a6}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
-header{padding:18px 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #292929;gap:15px;flex-wrap:wrap}
-.logo{color:var(--gold);font-size:23px;font-weight:bold}
-nav a{color:white;text-decoration:none;margin:0 8px}
-.hero{padding:85px 7%;text-align:center;background:linear-gradient(#0009,#000b),url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600') center/cover}
-h1{font-size:clamp(32px,6vw,58px);color:var(--gold);margin:0 0 15px}
-.hero p{font-size:18px}
-section{padding:45px 6%;max-width:1300px;margin:auto}
-h2{color:var(--gold);font-size:28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
-.card,.panel{background:var(--panel);border:1px solid #292929;border-radius:12px;overflow:hidden}
-.card img{width:100%;height:210px;object-fit:cover;background:#222}
-.cardbody{padding:18px}
-.card h3{margin:0 0 10px}
-.price{font-size:22px;color:var(--gold);font-weight:bold;margin:12px 0}
-.muted{color:var(--muted)}
-.status{display:inline-block;padding:6px 10px;border-radius:5px;background:#333;color:var(--gold);font-size:12px}
-button,.button{background:var(--gold);color:#111;border:0;border-radius:6px;padding:12px 16px;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block;margin:4px 0}
-button.secondary{background:#333;color:white}
-input,textarea,select{width:100%;padding:12px;margin:7px 0 14px;background:#0d1014;color:white;border:1px solid #444;border-radius:6px}
-label{color:#ddd;font-size:14px}
-.panel{padding:20px;margin:18px 0}
-.hidden{display:none}
-footer{text-align:center;padding:30px;color:#999;border-top:1px solid #292929}
-a{color:var(--gold)}
-small{color:#aaa}
+:root {
+  --bg:#0b0d10;
+  --panel:#15191f;
+  --gold:#c8a96b;
+  --muted:#a6a6a6;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+header {
+  padding:18px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #292929;
+  gap:15px;
+  flex-wrap:wrap;
+}
+.logo img {
+  width:330px;
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+nav {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+nav a {
+  color:white;
+  text-decoration:none;
+}
+nav a:hover { color:var(--gold); }
+.hero {
+  padding:85px 7%;
+  text-align:center;
+  background:
+    linear-gradient(#0009,#000b),
+    url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600')
+    center/cover;
+}
+h1 {
+  font-size:clamp(32px,6vw,58px);
+  color:var(--gold);
+  margin:0 0 15px;
+}
+.hero p { font-size:18px; }
+section {
+  padding:45px 6%;
+  max-width:1300px;
+  margin:auto;
+}
+h2 { color:var(--gold); font-size:28px; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+.card,.panel {
+  background:var(--panel);
+  border:1px solid #292929;
+  border-radius:12px;
+  overflow:hidden;
+}
+.card img {
+  width:100%;
+  height:210px;
+  object-fit:cover;
+  background:#222;
+}
+.cardbody { padding:18px; }
+.card h3 { margin:0 0 10px; }
+.price {
+  font-size:22px;
+  color:var(--gold);
+  font-weight:bold;
+  margin:12px 0;
+}
+.muted { color:var(--muted); }
+.status {
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:5px;
+  background:#333;
+  color:var(--gold);
+  font-size:12px;
+}
+button,.button {
+  background:var(--gold);
+  color:#111;
+  border:0;
+  border-radius:6px;
+  padding:12px 16px;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  margin:4px 0;
+}
+button.secondary {
+  background:#333;
+  color:white;
+}
+input,textarea,select {
+  width:100%;
+  padding:12px;
+  margin:7px 0 14px;
+  background:#0d1014;
+  color:white;
+  border:1px solid #444;
+  border-radius:6px;
+}
+input[type="checkbox"] {
+  width:auto;
+  margin:0 8px 0 0;
+  accent-color:var(--gold);
+}
+label {
+  color:#ddd;
+  font-size:14px;
+}
+.panel {
+  padding:20px;
+  margin:18px 0;
+}
+.hidden { display:none !important; }
+footer {
+  text-align:center;
+  padding:30px;
+  color:#999;
+  border-top:1px solid #292929;
+}
+a { color:var(--gold); }
+small { color:#aaa; }
+.review-card {
+  background:var(--panel);
+  border:1px solid #292929;
+  border-radius:10px;
+  padding:18px;
+  margin:12px 0;
+}
+.stars { color:var(--gold); font-size:20px; }
+@media(max-width:600px) {
+  header { justify-content:center; }
+  .logo img { width:260px; }
+  nav { justify-content:center; }
+  section { padding:32px 5%; }
+}
 </style>
 </head>
+
 <body>
+
 <header>
   <div class="logo">
-  <img src="tonis-logo.jpg" alt="Toni's Automobile" style="width: 330px; height: auto;">
+    <img src="tonis-logo.jpg" alt="Toni's Automobile">
   </div>
   <nav>
     <a href="#ueber-uns">Über uns</a>
     <a href="#autos">Fahrzeuge</a>
+    <a href="#bewertungen">Bewertungen</a>
     <a href="#kontakt">Kontakt</a>
     <a href="#admin">Admin</a>
   </nav>
@@ -55,6 +184,7 @@ small{color:#aaa}
   <p>Luxury Cars – Exklusive Fahrzeuge. Erstklassiger Service.</p>
   <a class="button" href="#autos">Fahrzeuge entdecken</a>
 </div>
+
 <section id="ueber-uns">
   <h2>Über uns – Toni's Automobile</h2>
   <p>Willkommen bei Toni's Automobile!</p>
@@ -64,12 +194,15 @@ small{color:#aaa}
   <p>Entdecken Sie unsere aktuellen Fahrzeuge und kontaktieren Sie uns gerne direkt über WhatsApp.</p>
   <p><strong>Toni's Automobile – Luxury Cars</strong></p>
 </section>
+
 <section id="autos">
   <h2>Unsere Fahrzeuge</h2>
   <div id="cars" class="grid">Fahrzeuge werden geladen …</div>
 </section>
+
 <section id="bewertungen">
   <h2>Kundenbewertungen</h2>
+
   <div class="panel">
     <p>Deine Meinung ist uns wichtig! Teile deine Erfahrung mit Toni's Automobile.</p>
 
@@ -88,96 +221,152 @@ small{color:#aaa}
 
       <label for="reviewComment">Dein Kommentar</label>
       <textarea id="reviewComment" maxlength="1000" required></textarea>
-<label style="display:block; margin-top:15px;">
-  <input type="checkbox" id="reviewConsent" required>
-  Ich bin damit einverstanden, dass mein Name und meine Bewertung
-  nach Prüfung öffentlich auf der Website von Toni's Automobile
-  angezeigt werden.
-</label>
-      <button class="button" type="submit">Bewertung absenden</button>
-      <p id="reviewMessage"></p>
+
+      <label style="display:block;margin:15px 0;">
+        <input type="checkbox" id="reviewConsent" required>
+        Ich bin damit einverstanden, dass mein Name und meine Bewertung nach Prüfung öffentlich auf der Website von Toni's Automobile angezeigt werden.
+      </label>
+
+      <button type="submit">Bewertung absenden</button>
+      <p id="reviewMessage" aria-live="polite"></p>
     </form>
   </div>
+
   <div id="reviewsList"></div>
 </section>
+
 <section id="kontakt">
   <h2>Kontakt</h2>
   <div class="panel">
     <p>Interesse an einem Fahrzeug? Kontaktiere uns gerne.</p>
-    <p><a id="whatsapp" class="button" href="#" target="_blank">WhatsApp Kontakt</a></p>
-    <p>E-Mail: <a href="mailto:tonisautomobile1@gmail.com">tonisautomobile1@gmail.com</a></p>
+    <p>
+      <a id="whatsapp" class="button" href="#" target="_blank" rel="noopener">
+        WhatsApp Kontakt
+      </a>
+    </p>
+    <p>E-Mail:
+      <a href="mailto:tonisautomobile1@gmail.com">
+        tonisautomobile1@gmail.com
+      </a>
+    </p>
   </div>
 </section>
 
 <section id="admin">
   <h2>Administratorbereich</h2>
+
   <div id="loginBox" class="panel">
     <p>Nur für den Inhaber.</p>
-    <label>E-Mail</label>
-    <input id="email" type="email" value="tonisautomobile1@gmail.com" autocomplete="username">
-    <label>Passwort</label>
-    <input id="password" type="password" placeholder="Dein Passwort" autocomplete="current-password">
-    <button onclick="login()">Anmelden</button>
-    <p id="loginMessage" class="muted"></p>
+
+    <label for="email">E-Mail</label>
+    <input id="email" type="email"
+      value="tonisautomobile1@gmail.com"
+      autocomplete="username">
+
+    <label for="password">Passwort</label>
+    <input id="password" type="password"
+      placeholder="Dein Passwort"
+      autocomplete="current-password">
+
+    <button type="button" onclick="login()">Anmelden</button>
+    <p id="loginMessage" class="muted" aria-live="polite"></p>
   </div>
 
   <div id="adminBox" class="hidden">
+
     <div class="panel">
       <p>Du bist als Administrator angemeldet.</p>
-      <button class="secondary" onclick="logout()">Abmelden</button>
+      <button type="button" class="secondary" onclick="logout()">Abmelden</button>
     </div>
 
     <div class="panel">
       <h3 id="formTitle">Fahrzeug hinzufügen</h3>
+
       <input type="hidden" id="editId">
-      <label>Titel</label><input id="titel" placeholder="z. B. Mercedes-Benz E 300">
-      <label>Marke</label><input id="marke" placeholder="Mercedes-Benz">
-      <label>Modell</label><input id="modell" placeholder="E 300">
-      <label>Erstzulassung</label><input id="zulassung" placeholder="2022">
-      <label>Kilometer</label><input id="kilometer" type="number" min="0">
-      <label>Leistung PS</label><input id="leistung" type="number" min="0">
-      <label>Kraftstoff</label><input id="kraftstoff" placeholder="Benzin, Diesel, Hybrid …">
-      <label>Getriebe</label><input id="getriebe" placeholder="Automatik">
-      <label>Preis in Euro</label><input id="preis" type="number" min="0">
-      <label>Status</label>
+
+      <label for="titel">Titel</label>
+      <input id="titel" placeholder="z. B. Mercedes-Benz E 300">
+
+      <label for="marke">Marke</label>
+      <input id="marke" placeholder="Mercedes-Benz">
+
+      <label for="modell">Modell</label>
+      <input id="modell" placeholder="E 300">
+
+      <label for="zulassung">Erstzulassung</label>
+      <input id="zulassung" placeholder="2022">
+
+      <label for="kilometer">Kilometer</label>
+      <input id="kilometer" type="number" min="0">
+
+      <label for="leistung">Leistung PS</label>
+      <input id="leistung" type="number" min="0">
+
+      <label for="kraftstoff">Kraftstoff</label>
+      <input id="kraftstoff" placeholder="Benzin, Diesel, Hybrid …">
+
+      <label for="getriebe">Getriebe</label>
+      <input id="getriebe" placeholder="Automatik">
+
+      <label for="preis">Preis in Euro</label>
+      <input id="preis" type="number" min="0">
+
+      <label for="status">Status</label>
       <select id="status">
         <option>Verfügbar</option>
         <option>Reserviert</option>
         <option>Verkauft</option>
       </select>
-      <label>Beschreibung</label><textarea id="beschreibung" rows="4"></textarea>
-      <label>Fahrzeugbilder vom Handy auswählen</label>
+
+      <label for="beschreibung">Beschreibung</label>
+      <textarea id="beschreibung" rows="4"></textarea>
+
+      <label for="bilder">Fahrzeugbilder vom Handy auswählen</label>
       <input id="bilder" type="file" accept="image/*" multiple>
       <small>Du kannst mehrere Fotos aus deiner Galerie auswählen.</small>
-      <p><button onclick="saveCar()">Fahrzeug speichern</button>
-      <button class="secondary" onclick="resetForm()">Abbrechen / Neues Fahrzeug</button></p>
-      <p id="saveMessage" class="muted"></p>
+
+      <p>
+        <button type="button" onclick="saveCar()">Fahrzeug speichern</button>
+        <button type="button" class="secondary" onclick="resetForm()">
+          Abbrechen / Neues Fahrzeug
+        </button>
+      </p>
+
+      <p id="saveMessage" class="muted" aria-live="polite"></p>
     </div>
+
     <div class="panel">
       <h3>Fahrzeuge verwalten</h3>
       <div id="manageCars"></div>
     </div>
+
+    <div class="panel">
+      <h3>Eingegangene Bewertungen</h3>
+      <p class="muted">Hier kannst du Kundenbewertungen prüfen und veröffentlichen.</p>
+      <div id="pendingReviews">Bewertungen werden geladen …</div>
+    </div>
+
   </div>
 </section>
 
 <footer>
-  Toni's Automobile - Luxury Cars
-  <br>
+  Toni's Automobile – Luxury Cars
+  <br><br>
   <a href="impressum.html">Impressum</a>
   |
   <a href="datenschutz.html">Datenschutzerklärung</a>
 </footer>
-  <br>
-  <a href="impressum.html">Impressum</a>
-</footer>
 
 <script>
+'use strict';
+
 const SUPABASE_URL = 'https://ylgaecxpjpwcqckspfkq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu';
 const BUCKET = 'Fahrzeugbilder';
 const WHATSAPP_NUMBER = '4917683412627';
 
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 let isAdmin = false;
 let vehicles = [];
 
@@ -187,12 +376,17 @@ document.getElementById('whatsapp').href =
 
 function esc(value) {
   return String(value ?? '').replace(/[&<>"']/g, c => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
   }[c]));
 }
 
 function getImages(value) {
   if (!value) return [];
+
   try {
     const parsed = JSON.parse(value);
     return Array.isArray(parsed) ? parsed : [value];
@@ -205,64 +399,119 @@ function euro(value) {
   return Number(value || 0).toLocaleString('de-DE') + ' €';
 }
 
+/* FAHRZEUGE LADEN */
+
 async function loadCars() {
-  const {data, error} = await db.from('Fahrzeuge').select('*').order('id', {ascending:false});
+  const {data, error} = await db
+    .from('Fahrzeuge')
+    .select('*')
+    .order('id', {ascending:false});
+
   if (error) {
     document.getElementById('cars').textContent =
       'Fahrzeuge konnten nicht geladen werden: ' + error.message;
     return;
   }
+
   vehicles = data || [];
   renderCars();
+
   if (isAdmin) renderManage();
 }
 
+/* FAHRZEUGE ANZEIGEN */
+
 function renderCars() {
   const area = document.getElementById('cars');
+
   if (!vehicles.length) {
-    area.innerHTML = '<p class="muted">Aktuell sind keine Fahrzeuge eingetragen.</p>';
+    area.innerHTML =
+      '<p class="muted">Aktuell sind keine Fahrzeuge eingetragen.</p>';
     return;
   }
 
   area.innerHTML = vehicles.map(car => {
     const images = getImages(car.Bilder);
     const image = images[0] || '';
-    return `<article class="card">
-      ${image ? `<img src="${esc(image)}" alt="${esc(car.Titel)}">` :
-        '<div style="height:210px;background:#222"></div>'}
-      <div class="cardbody">
-        <span class="status">${esc(car.Status || 'Verfügbar')}</span>
-        <h3>${esc(car.Titel || (car.Marke + ' ' + car.Modell))}</h3>
-        <p class="muted">${esc(car.Erstzulassung || '')} · ${esc(car.Kilometer || 0)} km</p>
-        <p>${esc(car.Leistung_PS || car['Leistung PS'] || '')} PS · ${esc(car.Kraftstoff || '')} · ${esc(car.Getriebe || '')}</p>
-        <p class="price">${euro(car.Preis)}</p>
-        <p>${esc(car.Beschreibung || '')}</p>
-        ${images.length > 1 ? `<p class="muted">${images.length} Bilder vorhanden</p>` : ''}
-        <a class="button" target="_blank" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hallo, ich interessiere mich für ' + (car.Titel || car.Marke + ' ' + car.Modell))}">Anfragen</a>
-      </div>
-    </article>`;
+    const title = car.Titel || ((car.Marke || '') + ' ' + (car.Modell || ''));
+
+    return `
+      <article class="card">
+        ${image
+          ? `<img src="${esc(image)}" alt="${esc(title)}" loading="lazy">`
+          : '<div style="height:210px;background:#222"></div>'
+        }
+
+        <div class="cardbody">
+          <span class="status">${esc(car.Status || 'Verfügbar')}</span>
+
+          <h3>${esc(title)}</h3>
+
+          <p class="muted">
+            ${esc(car.Erstzulassung || '')}
+            · ${esc(car.Kilometer || 0)} km
+          </p>
+
+          <p>
+            ${esc(car['Leistung PS'] || '')} PS
+            · ${esc(car.Kraftstoff || '')}
+            · ${esc(car.Getriebe || '')}
+          </p>
+
+          <p class="price">${euro(car.Preis)}</p>
+
+          <p>${esc(car.Beschreibung || '')}</p>
+
+          ${images.length > 1
+            ? `<p class="muted">${images.length} Bilder vorhanden</p>`
+            : ''
+          }
+
+          <a class="button"
+             target="_blank"
+             rel="noopener"
+             href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hallo, ich interessiere mich für ' + title)}">
+            Anfragen
+          </a>
+        </div>
+      </article>
+    `;
   }).join('');
 }
 
+/* ADMIN PRÜFEN */
+
 async function checkAdmin() {
-  const {data:{user}} = await db.auth.getUser();
-  if (!user) return showLoggedOut();
+  const {data, error} = await db.auth.getUser();
+  const user = data?.user;
 
-  const {data, error} = await db.from('admin_users')
-    .select('user_id').eq('user_id', user.id).maybeSingle();
+  if (error || !user) {
+    showLoggedOut();
+    return;
+  }
 
-  if (error || !data) {
+  const {data:adminData, error:adminError} = await db
+    .from('admin_users')
+    .select('user_id')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (adminError || !adminData) {
     await db.auth.signOut();
     showLoggedOut();
+
     document.getElementById('loginMessage').textContent =
       'Dieses Konto hat keine Administratorberechtigung.';
     return;
   }
 
   isAdmin = true;
+
   document.getElementById('loginBox').classList.add('hidden');
   document.getElementById('adminBox').classList.remove('hidden');
+
   await loadCars();
+  await loadPendingReviews();
 }
 
 function showLoggedOut() {
@@ -271,51 +520,89 @@ function showLoggedOut() {
   document.getElementById('adminBox').classList.add('hidden');
 }
 
+/* ANMELDEN */
+
 async function login() {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const message = document.getElementById('loginMessage');
-  message.textContent = 'Anmeldung läuft …';
 
-  const {error} = await db.auth.signInWithPassword({email, password});
-  if (error) {
-    message.textContent = 'Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.';
+  if (!email || !password) {
+    message.textContent = 'Bitte E-Mail und Passwort eingeben.';
     return;
   }
+
+  message.textContent = 'Anmeldung läuft …';
+
+  const {error} = await db.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    message.textContent =
+      'Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.';
+    return;
+  }
+
   document.getElementById('password').value = '';
   await checkAdmin();
 }
 
+/* ABMELDEN */
+
 async function logout() {
   await db.auth.signOut();
   showLoggedOut();
-  document.getElementById('loginMessage').textContent = 'Du bist abgemeldet.';
+  document.getElementById('loginMessage').textContent =
+    'Du bist abgemeldet.';
 }
+
+/* FAHRZEUGFORMULAR ZURÜCKSETZEN */
 
 function resetForm() {
   document.getElementById('editId').value = '';
-  ['titel','marke','modell','zulassung','kilometer','leistung','kraftstoff',
-   'getriebe','preis','beschreibung'].forEach(id =>
-    document.getElementById(id).value = '');
+
+  [
+    'titel','marke','modell','zulassung','kilometer',
+    'leistung','kraftstoff','getriebe','preis','beschreibung'
+  ].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+
   document.getElementById('status').value = 'Verfügbar';
   document.getElementById('bilder').value = '';
-  document.getElementById('formTitle').textContent = 'Fahrzeug hinzufügen';
+  document.getElementById('formTitle').textContent =
+    'Fahrzeug hinzufügen';
   document.getElementById('saveMessage').textContent = '';
 }
 
+/* FAHRZEUGE VERWALTEN */
+
 function renderManage() {
   const area = document.getElementById('manageCars');
-  area.innerHTML = vehicles.map(car =>
-    `<p><b>${esc(car.Titel || car.Marke + ' ' + car.Modell)}</b>
-    – ${esc(car.Status || '')}
-    <button onclick="editCar(${Number(car.id)})">Bearbeiten</button>
-    <button class="secondary" onclick="deleteCar(${Number(car.id)})">Löschen</button></p>`
-  ).join('') || '<p>Keine Fahrzeuge vorhanden.</p>';
+
+  area.innerHTML = vehicles.map(car => `
+    <p>
+      <b>${esc(car.Titel || ((car.Marke || '') + ' ' + (car.Modell || '')))}</b>
+      – ${esc(car.Status || '')}
+      <button type="button" onclick="editCar(${Number(car.id)})">
+        Bearbeiten
+      </button>
+      <button type="button" class="secondary"
+        onclick="deleteCar(${Number(car.id)})">
+        Löschen
+      </button>
+    </p>
+  `).join('') || '<p>Keine Fahrzeuge vorhanden.</p>';
 }
+
+/* FAHRZEUG BEARBEITEN */
 
 function editCar(id) {
   const car = vehicles.find(v => Number(v.id) === id);
   if (!car) return;
+
   document.getElementById('editId').value = car.id;
   document.getElementById('titel').value = car.Titel || '';
   document.getElementById('marke').value = car.Marke || '';
@@ -328,30 +615,50 @@ function editCar(id) {
   document.getElementById('preis').value = car.Preis ?? '';
   document.getElementById('status').value = car.Status || 'Verfügbar';
   document.getElementById('beschreibung').value = car.Beschreibung || '';
-  document.getElementById('formTitle').textContent = 'Fahrzeug bearbeiten';
+
+  document.getElementById('formTitle').textContent =
+    'Fahrzeug bearbeiten';
+
   document.getElementById('saveMessage').textContent =
     'Neue Bilder kannst du zusätzlich auswählen. Bestehende Bilder bleiben erhalten.';
+
   window.location.hash = 'admin';
 }
 
+/* FAHRZEUG SPEICHERN */
+
 async function saveCar() {
   if (!isAdmin) return;
+
   const message = document.getElementById('saveMessage');
   message.textContent = 'Speichern läuft …';
 
   const editId = document.getElementById('editId').value;
-  const oldCar = editId ? vehicles.find(v => String(v.id) === editId) : null;
+  const oldCar = editId
+    ? vehicles.find(v => String(v.id) === editId)
+    : null;
+
   let images = oldCar ? getImages(oldCar.Bilder) : [];
   const files = [...document.getElementById('bilder').files];
 
   for (const file of files) {
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const path = Date.now() + '-' + Math.random().toString(36).slice(2) + '-' + safeName;
-    const {error:uploadError} = await db.storage.from(BUCKET).upload(path, file);
+    const path =
+      Date.now() + '-' +
+      Math.random().toString(36).slice(2) + '-' +
+      safeName;
+
+    const {error:uploadError} = await db
+      .storage
+      .from(BUCKET)
+      .upload(path, file);
+
     if (uploadError) {
-      message.textContent = 'Bild-Upload fehlgeschlagen: ' + uploadError.message;
+      message.textContent =
+        'Bild-Upload fehlgeschlagen: ' + uploadError.message;
       return;
     }
+
     const {data} = db.storage.from(BUCKET).getPublicUrl(path);
     images.push(data.publicUrl);
   }
@@ -376,7 +683,8 @@ async function saveCar() {
     : await db.from('Fahrzeuge').insert(record);
 
   if (result.error) {
-    message.textContent = 'Fehler beim Speichern: ' + result.error.message;
+    message.textContent =
+      'Fehler beim Speichern: ' + result.error.message;
     return;
   }
 
@@ -385,72 +693,168 @@ async function saveCar() {
   await loadCars();
 }
 
+/* FAHRZEUG LÖSCHEN */
+
 async function deleteCar(id) {
-  if (!isAdmin || !confirm('Möchtest du dieses Fahrzeug wirklich löschen?')) return;
-  const {error} = await db.from('Fahrzeuge').delete().eq('id', id);
+  if (!isAdmin) return;
+
+  if (!confirm('Möchtest du dieses Fahrzeug wirklich löschen?')) {
+    return;
+  }
+
+  const {error} = await db
+    .from('Fahrzeuge')
+    .delete()
+    .eq('id', id);
+
   if (error) {
     alert('Löschen fehlgeschlagen: ' + error.message);
     return;
   }
+
   await loadCars();
 }
 
-db.auth.onAuthStateChange((_event, session) => {
-  if (!session) showLoggedOut();
-});
+/* ÖFFENTLICHE BEWERTUNGEN LADEN */
+
 async function loadReviews() {
   const list = document.getElementById('reviewsList');
+
   const {data, error} = await db
     .from('bewertungen')
     .select('*')
     .eq('Freigeben', true)
-    .order('created_at', {ascending: false});
+    .order('created_at', {ascending:false});
 
   if (error) {
     list.textContent = 'Bewertungen konnten nicht geladen werden.';
     return;
   }
 
-  list.innerHTML = data.map(review => `
-    <div class="panel">
-      <strong>${esc(review.Name)}</strong>
-      <p>${'★'.repeat(Number(review.Sterne))}${'☆'.repeat(5 - Number(review.Sterne))}</p>
-      <p>${esc(review.Kommentar)}</p>
-    </div>
-  `).join('') || '<p>Noch keine freigegebenen Bewertungen.</p>';
+  list.innerHTML = (data || []).map(review => {
+    const stars = Math.max(0, Math.min(5, Number(review.Sterne) || 0));
+
+    return `
+      <div class="review-card">
+        <strong>${esc(review.Name)}</strong>
+        <p class="stars">${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</p>
+        <p>${esc(review.Kommentar)}</p>
+      </div>
+    `;
+  }).join('') || '<p>Noch keine freigegebenen Bewertungen.</p>';
 }
+
+/* NEUE BEWERTUNG SENDEN */
 
 document.getElementById('reviewForm').addEventListener('submit', async event => {
   event.preventDefault();
 
   const message = document.getElementById('reviewMessage');
-  message.textContent = 'Bewertung wird gesendet …';
+  const consent = document.getElementById('reviewConsent').checked;
 
-  const {error} = await db.from('bewertungen').insert({
-  Name: document.getElementById('reviewName').value.trim(),
-  Sterne: Number(document.getElementById('reviewStars').value),
-  Kommentar: document.getElementById('reviewComment').value.trim(),
-  Freigeben: false,
-  Einwilligung: document.getElementById('reviewConsent').checked
-});
-    Name: document.getElementById('reviewName').value.trim(),
-    Sterne: Number(document.getElementById('reviewStars').value),
-    Kommentar: document.getElementById('reviewComment').value.trim(),
-    Freigeben: false
-  });
-
-  if (error) {
-    message.textContent = 'Fehler beim Senden: ' + error.message;
+  if (!consent) {
+    message.textContent =
+      'Bitte bestätige zuerst die Einwilligung.';
     return;
   }
 
-  message.textContent = 'Vielen Dank! Deine Bewertung wird nach Prüfung veröffentlicht.';
+  message.textContent = 'Bewertung wird gesendet …';
+
+  const {error} = await db.from('bewertungen').insert({
+    Name: document.getElementById('reviewName').value.trim(),
+    Sterne: Number(document.getElementById('reviewStars').value),
+    Kommentar: document.getElementById('reviewComment').value.trim(),
+    Freigeben: false,
+    Einwilligung: consent
+  });
+
+  if (error) {
+    message.textContent =
+      'Fehler beim Senden: ' + error.message;
+    return;
+  }
+
+  message.textContent =
+    'Vielen Dank! Deine Bewertung wird nach Prüfung veröffentlicht.';
+
   event.target.reset();
 });
+
+/* NOCH NICHT FREIGEGEBENE BEWERTUNGEN IM ADMINBEREICH */
+
+async function loadPendingReviews() {
+  if (!isAdmin) return;
+
+  const area = document.getElementById('pendingReviews');
+  area.textContent = 'Bewertungen werden geladen …';
+
+  const {data, error} = await db
+    .from('bewertungen')
+    .select('*')
+    .eq('Freigeben', false)
+    .order('created_at', {ascending:false});
+
+  if (error) {
+    area.textContent =
+      'Bewertungen konnten nicht geladen werden: ' + error.message;
+    return;
+  }
+
+  const pending = data || [];
+
+  if (!pending.length) {
+    area.innerHTML = '<p>Es liegen aktuell keine offenen Bewertungen vor.</p>';
+    return;
+  }
+
+  area.innerHTML = pending.map(review => `
+    <div class="review-card">
+      <strong>${esc(review.Name)}</strong>
+      <p class="stars">
+        ${'★'.repeat(Math.max(0, Math.min(5, Number(review.Sterne) || 0)))}
+      </p>
+      <p>${esc(review.Kommentar)}</p>
+      <button type="button"
+        onclick="approveReview(${Number(review.id)})">
+        Bewertung freigeben
+      </button>
+    </div>
+  `).join('');
+}
+
+/* BEWERTUNG FREIGEBEN */
+
+async function approveReview(id) {
+  if (!isAdmin) return;
+
+  const {error} = await db
+    .from('bewertungen')
+    .update({Freigeben:true})
+    .eq('id', id);
+
+  if (error) {
+    alert('Freigabe fehlgeschlagen: ' + error.message);
+    return;
+  }
+
+  await loadPendingReviews();
+  await loadReviews();
+}
+
+/* ANMELDESTATUS BEOBACHTEN */
+
+db.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_OUT' || !session) {
+    showLoggedOut();
+  }
+});
+
+/* START */
 
 loadReviews();
 loadCars();
 checkAdmin();
+
 </script>
 </body>
 </html>
