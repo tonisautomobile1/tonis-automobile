@@ -884,7 +884,9 @@ function editCar(id) {
   document.getElementById('preis').value = car.Preis ?? '';
   document.getElementById('status').value = car.Status || 'Verfügbar';
   document.getElementById('beschreibung').value = car.Beschreibung || '';
-
+document.getElementById('aussenAusstattung').value = car['Außenausstattung'] || '';
+document.getElementById('innenAusstattungText').value = car['Innenausstattung'] || '';
+document.getElementById('sicherheit').value = car.Sicherheit || '';
   document.getElementById('formTitle').textContent =
     'Fahrzeug bearbeiten';
 
