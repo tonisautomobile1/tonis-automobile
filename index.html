@@ -463,17 +463,29 @@ small { color:#aaa; }
       <label for="beschreibung">Beschreibung</label>
       <textarea id="beschreibung" rows="4"></textarea>
 
-<label for="aussenAusstattung">Außenausstattung</label>
-<textarea id="aussenAusstattung" rows="3"
-placeholder="Anhängerkupplung, Einparkhilfe, Leichtmetallfelgen, LED-Scheinwerfer …"></textarea>
+<h3>Außenausstattung</h3>
+<label><input type="checkbox" class="ausstattung" data-gruppe="aussen" value="Anhängerkupplung"> Anhängerkupplung</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="aussen" value="Einparkhilfe"> Einparkhilfe</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="aussen" value="Leichtmetallfelgen"> Leichtmetallfelgen</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="aussen" value="Xenon-/LED-Scheinwerfer"> Xenon-/LED-Scheinwerfer</label>
 
-<label for="innenAusstattungText">Innenausstattung</label>
-<textarea id="innenAusstattungText" rows="3"
-placeholder="Klimaanlage, Navigation, Bluetooth, Sitzheizung, Tempomat …"></textarea>
+<h3>Innenausstattung</h3>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Klimaanlage"> Klimaanlage</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Navigationssystem"> Navigationssystem</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Radio/Tuner"> Radio/Tuner</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Bluetooth"> Bluetooth</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Freisprecheinrichtung"> Freisprecheinrichtung</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Schiebedach/Panoramadach"> Schiebedach/Panoramadach</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Sitzheizung"> Sitzheizung</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Tempomat"> Tempomat</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="innen" value="Nichtraucher-Fahrzeug"> Nichtraucher-Fahrzeug</label>
 
-<label for="sicherheit">Sicherheit</label>
-<textarea id="sicherheit" rows="3"
-placeholder="ABS, Scheckheftgepflegt …"></textarea>
+<h3>Sicherheit</h3>
+<label><input type="checkbox" class="ausstattung" data-gruppe="sicherheit" value="Antiblockiersystem (ABS)"> Antiblockiersystem (ABS)</label>
+<label><input type="checkbox" class="ausstattung" data-gruppe="sicherheit" value="Scheckheftgepflegt"> Scheckheftgepflegt</label>
+
+<h3>Sonstige Ausstattung</h3>
+<textarea id="sonstigeAusstattung" rows="3" placeholder="Weitere Ausstattungsmerkmale ..."></textarea>
 
       <label for="bilder">Fahrzeugbilder vom Handy auswählen</label>
       <input id="bilder" type="file" accept="image/*" multiple>
