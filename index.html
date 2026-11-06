@@ -956,8 +956,11 @@ async function saveCar() {
     'Preis': Number(document.getElementById('preis').value || 0),
     'Status': document.getElementById('status').value,
     'Beschreibung': document.getElementById('beschreibung').value.trim(),
-    'Bilder': JSON.stringify(images)
-  };
+'Außenausstattung': document.getElementById('aussenAusstattung').value.trim(),
+'Innenausstattung': document.getElementById('innenAusstattungText').value.trim(),
+'Sicherheit': document.getElementById('sicherheit').value.trim(),
+'Bilder': JSON.stringify(images)
+};
 
   const result = editId
     ? await db.from('Fahrzeuge').update(record).eq('id', editId)
