@@ -503,7 +503,94 @@ function esc(value) {
     "'":'&#39;'
   }[c]));
 }
+/* FAHRZEUG-DETAILFENSTER STEUERN */
 
+let modalImages = [];
+
+function openVehicleModal(index) {
+  const car = vehicles[index];
+  if (!car) return;
+
+  modalImages = getImages(car.Bilder);
+
+  const title = car.Titel ||
+    ((car.Marke || '') + ' ' + (car.Modell || ''));
+
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalPrice').textContent = euro(car.Preis);
+  document.getElementById('modalDescription').textContent =
+    car.Beschreibung || '';
+
+  const mainImage = document.getElementById('modalMainImage');
+  const gallery = document.getElementById('modalGallery');
+
+  if (modalImages.length) {
+    mainImage.src = modalImages[0];
+    mainImage.style.display = 'block';
+
+    gallery.innerHTML = modalImages.map((url, i) => `
+      <img src="${esc(url)}"
+           class="${i === 0 ? 'active' : ''}"
+           alt="Fahrzeugbild ${i + 1}"
+           onclick="selectVehicleImage(${i})">
+    `).join('');
+  } else {
+    mainImage.style.display = 'none';
+    gallery.innerHTML = '<p class="muted">Keine Bilder vorhanden.</p>';
+  }
+
+  const details = [
+    ['Marke', car.Marke],
+    ['Modell', car.Modell],
+    ['Erstzulassung', car.Erstzulassung],
+    ['Kilometerstand', car.Kilometer ? Number(car.Kilometer).toLocaleString('de-DE') + ' km' : ''],
+    ['Leistung', car['Leistung PS'] ? car['Leistung PS'] + ' PS' : ''],
+    ['Kraftstoff', car.Kraftstoff],
+    ['Getriebe', car.Getriebe],
+    ['Status', car.Status]
+  ];
+
+  document.getElementById('modalDetails').innerHTML =
+    details.filter(item => item[1] !== null && item[1] !== undefined && item[1] !== '')
+    .map(item => `
+      <div class="vehicle-detail">
+        <strong>${esc(item[0])}</strong>
+        ${esc(item[1])}
+      </div>
+    `).join('');
+
+  document.getElementById('modalWhatsapp').href =
+    'https://wa.me/' + WHATSAPP_NUMBER + '?text=' +
+    encodeURIComponent('Hallo, ich interessiere mich für ' + title + '.');
+
+  document.getElementById('vehicleModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectVehicleImage(index) {
+  if (!modalImages[index]) return;
+
+  document.getElementById('modalMainImage').src = modalImages[index];
+
+  document.querySelectorAll('#modalGallery img').forEach((img, i) => {
+    img.classList.toggle('active', i === index);
+  });
+}
+
+function closeVehicleModal(event) {
+  if (event && event.target !== document.getElementById('vehicleModal')) {
+    return;
+  }
+
+  document.getElementById('vehicleModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeVehicleModal();
+  }
+});
 function getImages(value) {
   if (!value) return [];
 
