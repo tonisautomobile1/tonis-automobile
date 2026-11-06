@@ -835,6 +835,7 @@ function renderManage() {
 
 /* FAHRZEUG BEARBEITEN */
 
+
 function editCar(id) {
   const car = vehicles.find(v => Number(v.id) === id);
   if (!car) return;
@@ -848,6 +849,16 @@ function editCar(id) {
   document.getElementById('leistung').value = car['Leistung PS'] ?? '';
   document.getElementById('kraftstoff').value = car.Kraftstoff || '';
   document.getElementById('getriebe').value = car.Getriebe || '';
+
+  document.getElementById('huBis').value = car['HU bis'] || '';
+  document.getElementById('fahrzeugtyp').value = car.Fahrzeugtyp || '';
+  document.getElementById('tueren').value = car['Anzahl Türen'] || '';
+  document.getElementById('umweltplakette').value = car.Umweltplakette || '';
+  document.getElementById('schadstoffklasse').value = car.Schadstoffklasse || '';
+  document.getElementById('aussenfarbe').value = car['Außenfarbe'] || '';
+  document.getElementById('innenausstattung').value = car['Material Innenausstattung'] || '';
+  document.getElementById('fahrzeugzustand').value = car.Fahrzeugzustand || '';
+
   document.getElementById('preis').value = car.Preis ?? '';
   document.getElementById('status').value = car.Status || 'Verfügbar';
   document.getElementById('beschreibung').value = car.Beschreibung || '';
@@ -860,6 +871,7 @@ function editCar(id) {
 
   window.location.hash = 'admin';
 }
+
 
 /* FAHRZEUG SPEICHERN */
 
