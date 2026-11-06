@@ -326,9 +326,19 @@ p, label, input, select, textarea, button {
 
     <h2 id="modalTitle">Fahrzeugdetails</h2>
 
-    <img id="modalMainImage"
-         class="vehicle-main-image"
-         alt="Fahrzeugbild">
+    <div class="vehicle-image-container">
+  <button class="gallery-arrow left"
+          onclick="changeVehicleImage(-1)">❮</button>
+
+  <img id="modalMainImage"
+       class="vehicle-main-image"
+       alt="Fahrzeugbild"
+       ontouchstart="galleryTouchStart(event)"
+       ontouchend="galleryTouchEnd(event)">
+
+  <button class="gallery-arrow right"
+          onclick="changeVehicleImage(1)">❯</button>
+    </div>
 
     <div id="modalGallery" class="vehicle-gallery"></div>
 
