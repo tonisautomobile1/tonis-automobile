@@ -576,16 +576,26 @@ function openVehicleModal(index) {
     gallery.innerHTML = '<p class="muted">Keine Bilder vorhanden.</p>';
   }
 
-  const details = [
-    ['Marke', car.Marke],
-    ['Modell', car.Modell],
-    ['Erstzulassung', car.Erstzulassung],
-    ['Kilometerstand', car.Kilometer ? Number(car.Kilometer).toLocaleString('de-DE') + ' km' : ''],
-    ['Leistung', car['Leistung PS'] ? car['Leistung PS'] + ' PS' : ''],
-    ['Kraftstoff', car.Kraftstoff],
-    ['Getriebe', car.Getriebe],
-    ['Status', car.Status]
-  ];
+  
+const details = [
+  ['Marke', car.Marke],
+  ['Modell', car.Modell],
+  ['Kilometerstand', car.Kilometer ? Number(car.Kilometer).toLocaleString('de-DE') + ' km' : ''],
+  ['Kraftstoffart', car.Kraftstoff],
+  ['Getriebe', car.Getriebe],
+  ['Leistung', car['Leistung PS'] ? car['Leistung PS'] + ' PS' : ''],
+  ['Erstzulassung', car.Erstzulassung],
+  ['HU bis', car['HU bis']],
+  ['Fahrzeugtyp', car.Fahrzeugtyp],
+  ['Anzahl Türen', car['Anzahl Türen']],
+  ['Umweltplakette', car.Umweltplakette],
+  ['Schadstoffklasse', car.Schadstoffklasse],
+  ['Außenfarbe', car['Außenfarbe']],
+  ['Material Innenausstattung', car['Material Innenausstattung']],
+  ['Fahrzeugzustand', car.Fahrzeugzustand],
+  ['Status', car.Status]
+];
+
 
   document.getElementById('modalDetails').innerHTML =
     details.filter(item => item[1] !== null && item[1] !== undefined && item[1] !== '')
