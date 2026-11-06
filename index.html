@@ -503,6 +503,21 @@ function esc(value) {
     "'":'&#39;'
   }[c]));
 }
+
+function getImages(value) {
+  if (!value) return [];
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [value];
+  } catch {
+    return [value];
+  }
+}
+
+function euro(value) {
+  return Number(value || 0).toLocaleString('de-DE') + ' €';
+}
 /* FAHRZEUG-DETAILFENSTER STEUERN */
 
 let modalImages = [];
@@ -591,21 +606,6 @@ document.addEventListener('keydown', event => {
     closeVehicleModal();
   }
 });
-function getImages(value) {
-  if (!value) return [];
-
-  try {
-    const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed : [value];
-  } catch {
-    return [value];
-  }
-}
-
-function euro(value) {
-  return Number(value || 0).toLocaleString('de-DE') + ' €';
-}
-
 /* FAHRZEUGE LADEN */
 
 async function loadCars() {
