@@ -899,12 +899,26 @@ function editCar(id) {
   document.getElementById('preis').value = car.Preis ?? '';
   document.getElementById('status').value = car.Status || 'Verfügbar';
   document.getElementById('beschreibung').value = car.Beschreibung || '';
-document.getElementById('aussenAusstattung').value = car['Außenausstattung'] || '';
-document.getElementById('innenAusstattungText').value = car['Innenausstattung'] || '';
-document.getElementById('sicherheit').value = car.Sicherheit || '';
-  document.getElementById('formTitle').textContent =
-    'Fahrzeug bearbeiten';
+// Alle Ausstattungshäkchen zurücksetzen
+document.querySelectorAll('.ausstattung').forEach(el => {
+  el.checked = false;
+});
 
+// Gespeicherte Ausstattung wieder ankreuzen
+const ausstattungSetzen = (gruppe, werte) => {
+  const vorhanden = (werte || '').split(',').map(w => w.trim());
+
+  document.querySelectorAll(`.ausstattung[data-gruppe="${gruppe}"]`).forEach(el => {
+    el.checked = vorhanden.includes(el.value);
+  });
+};
+
+ausstattungSetzen('aussen', car['Außenausstattung']);
+ausstattungSetzen('innen', car['Innenausstattung']);
+ausstattungSetzen('sicherheit', car.Sicherheit);
+
+document.getElementById('sonstigeAusstattung').value =
+  car['Sonstige Ausstattung'] || '';
   document.getElementById('saveMessage').textContent =
     'Neue Bilder kannst du zusätzlich auswählen. Bestehende Bilder bleiben erhalten.';
 
