@@ -637,13 +637,19 @@ function renderCars() {
     return;
   }
 
-  area.innerHTML = vehicles.map(car => {
+  area.innerHTML = vehicles.map((car, index) => {
     const images = getImages(car.Bilder);
     const image = images[0] || '';
-    const title = car.Titel || ((car.Marke || '') + ' ' + (car.Modell || ''));
+    const title = car.Titel ||
+      ((car.Marke || '') + ' ' + (car.Modell || ''));
 
     return `
-      <article class="card">
+      <article class="card vehicle-card"
+        onclick="openVehicleModal(${index})"
+        role="button"
+        tabindex="0"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVehicleModal(${index});}">
+
         ${image
           ? `<img src="${esc(image)}" alt="${esc(title)}" loading="lazy">`
           : '<div style="height:210px;background:#222"></div>'
@@ -669,12 +675,10 @@ function renderCars() {
 
           <p>${esc(car.Beschreibung || '')}</p>
 
-          ${images.length > 1
-            ? `<p class="muted">${images.length} Bilder vorhanden</p>`
-            : ''
-          }
+          <p class="muted">Tippen für alle Fahrzeugdaten und Bilder</p>
 
           <a class="button"
+             onclick="event.stopPropagation()"
              target="_blank"
              rel="noopener"
              href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hallo, ich interessiere mich für ' + title)}">
