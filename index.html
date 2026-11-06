@@ -686,7 +686,33 @@ function selectVehicleImage(index) {
     img.classList.toggle('active', i === index);
   });
 }
+let galleryTouchStartX = 0;
 
+function changeVehicleImage(direction) {
+  if (!modalImages.length) return;
+
+  const currentIndex = modalImages.indexOf(
+    document.getElementById('modalMainImage').src
+  );
+
+  const nextIndex =
+    (currentIndex + direction + modalImages.length) % modalImages.length;
+
+  selectVehicleImage(nextIndex);
+}
+
+function galleryTouchStart(event) {
+  galleryTouchStartX = event.changedTouches[0].screenX;
+}
+
+function galleryTouchEnd(event) {
+  const difference =
+    event.changedTouches[0].screenX - galleryTouchStartX;
+
+  if (Math.abs(difference) > 50) {
+    changeVehicleImage(difference < 0 ? 1 : -1);
+  }
+}
 function closeVehicleModal(event) {
   if (event && event.target !== document.getElementById('vehicleModal')) {
     return;
