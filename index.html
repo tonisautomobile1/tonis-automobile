@@ -532,23 +532,26 @@ async function login() {
     return;
   }
 
-  message.textContent = 'Anmeldung läuft …';
+  message.textContent = 'Anmeldung läuft ...';
 
-  const {error} = await db.auth.signInWithPassword({
-    email,
-    password
-  });
+  try {
+    const { error } = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
-  if (error) {
-    message.textContent =
-      'Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.';
-    return;
+    if (error) {
+      message.textContent = 'Anmeldung fehlgeschlagen: ' + error.message;
+      return;
+    }
+
+    message.textContent = 'Anmeldung erfolgreich!';
+    await checkAdmin();
+
+  } catch (error) {
+    message.textContent = 'Fehler: ' + error.message;
   }
-
-  document.getElementById('password').value = '';
-  await checkAdmin();
 }
-
 /* ABMELDEN */
 
 async function logout() {
