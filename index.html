@@ -274,39 +274,41 @@ h3 {
 p, label, input, select, textarea, button {
   font-size: 1.1rem;
 }
-  .vehicle-image-container {
-  position: relative;
+.vehicle-image-container {
+  position: relative !important;
   width: 100%;
-  text-align: center;
+  display: block;
+  overflow: hidden;
 }
 
-.gallery-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 5;
+.vehicle-image-container .gallery-arrow {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 20;
   width: 45px;
   height: 45px;
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   color: white;
   font-size: 25px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.gallery-arrow.left {
-  left: 10px;
+.vehicle-image-container .gallery-arrow.left {
+  left: 10px !important;
+  right: auto !important;
 }
 
-.gallery-arrow.right {
-  right: 10px;
+.vehicle-image-container .gallery-arrow.right {
+  right: 10px !important;
+  left: auto !important;
 }
 
 .vehicle-main-image {
+  display: block;
+  width: 100%;
   touch-action: pan-y;
 }
 </style>
