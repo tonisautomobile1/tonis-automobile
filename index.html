@@ -287,7 +287,39 @@ small { color:#aaa; }
   <h2>Unsere Fahrzeuge</h2>
   <div id="cars" class="grid">Fahrzeuge werden geladen …</div>
 </section>
+<!-- FAHRZEUG-DETAILFENSTER -->
+<div id="vehicleModal" class="vehicle-modal"
+     onclick="closeVehicleModal(event)">
 
+  <div class="vehicle-modal-content"
+       onclick="event.stopPropagation()">
+
+    <button type="button"
+            class="vehicle-modal-close"
+            onclick="closeVehicleModal()"
+            aria-label="Fenster schließen">×</button>
+
+    <h2 id="modalTitle">Fahrzeugdetails</h2>
+
+    <img id="modalMainImage"
+         class="vehicle-main-image"
+         alt="Fahrzeugbild">
+
+    <div id="modalGallery" class="vehicle-gallery"></div>
+
+    <div id="modalPrice" class="price"></div>
+
+    <div id="modalDetails" class="vehicle-details"></div>
+
+    <div id="modalDescription"></div>
+
+    <a id="modalWhatsapp"
+       class="button"
+       target="_blank"
+       rel="noopener">Fahrzeug anfragen</a>
+
+  </div>
+</div>
 <section id="bewertungen">
   <h2>Kundenbewertungen</h2>
 
