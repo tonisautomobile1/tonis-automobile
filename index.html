@@ -863,6 +863,7 @@ function editCar(id) {
 
 /* FAHRZEUG SPEICHERN */
 
+
 async function saveCar() {
   if (!isAdmin) return;
 
@@ -908,6 +909,16 @@ async function saveCar() {
     'Leistung PS': Number(document.getElementById('leistung').value || 0),
     'Kraftstoff': document.getElementById('kraftstoff').value.trim(),
     'Getriebe': document.getElementById('getriebe').value.trim(),
+
+    'HU bis': document.getElementById('huBis').value.trim(),
+    'Fahrzeugtyp': document.getElementById('fahrzeugtyp').value.trim(),
+    'Anzahl Türen': document.getElementById('tueren').value.trim(),
+    'Umweltplakette': document.getElementById('umweltplakette').value.trim(),
+    'Schadstoffklasse': document.getElementById('schadstoffklasse').value.trim(),
+    'Außenfarbe': document.getElementById('aussenfarbe').value.trim(),
+    'Material Innenausstattung': document.getElementById('innenausstattung').value.trim(),
+    'Fahrzeugzustand': document.getElementById('fahrzeugzustand').value.trim(),
+
     'Preis': Number(document.getElementById('preis').value || 0),
     'Status': document.getElementById('status').value,
     'Beschreibung': document.getElementById('beschreibung').value.trim(),
@@ -928,6 +939,7 @@ async function saveCar() {
   resetForm();
   await loadCars();
 }
+
 
 /* FAHRZEUG LÖSCHEN */
 
