@@ -973,9 +973,10 @@ async function saveCar() {
     'Preis': Number(document.getElementById('preis').value || 0),
     'Status': document.getElementById('status').value,
     'Beschreibung': document.getElementById('beschreibung').value.trim(),
-'Außenausstattung': document.getElementById('aussenAusstattung').value.trim(),
-'Innenausstattung': document.getElementById('innenAusstattungText').value.trim(),
-'Sicherheit': document.getElementById('sicherheit').value.trim(),
+'Außenausstattung': [...document.querySelectorAll('.ausstattung[data-gruppe="aussen"]:checked')].map(el => el.value).join(', '),
+'Innenausstattung': [...document.querySelectorAll('.ausstattung[data-gruppe="innen"]:checked')].map(el => el.value).join(', '),
+'Sicherheit': [...document.querySelectorAll('.ausstattung[data-gruppe="sicherheit"]:checked')].map(el => el.value).join(', '),
+'Sonstige Ausstattung': document.getElementById('sonstigeAusstattung').value.trim(),
 'Bilder': JSON.stringify(images)
 };
 
