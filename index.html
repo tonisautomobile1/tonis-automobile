@@ -745,6 +745,53 @@ async function trackVehicleView(vehicleId) {
     });
   }
 }
+  async function loadStatistics() {
+  if (!isAdmin) return;
+
+  const totalResult = await db
+    .from('WebseitenAufrufe')
+    .select('id', { count: 'exact', head: true });
+
+  const totalElement = document.getElementById('totalPageViews');
+
+  if (totalResult.error) {
+    totalElement.textContent = 'Fehler beim Laden';
+    return;
+  }
+
+  totalElement.textContent = totalResult.count ?? 0;
+
+  const result = await db
+    .from('FahrzeugAufrufe')
+    .select('fahrzeug_id');
+
+  const container = document.getElementById('vehicleStatistics');
+
+  if (result.error) {
+    container.textContent = 'Fahrzeugstatistik konnte nicht geladen werden.';
+    return;
+  }
+
+  const counts = {};
+
+  result.data.forEach(view => {
+    const id = String(view.fahrzeug_id);
+    counts[id] = (counts[id] || 0) + 1;
+  });
+
+  const ranking = vehicles
+    .map(car => ({
+      name: (car.Marke || '') + ' ' + (car.Modell || ''),
+      count: counts[String(car.id)] || 0
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  container.innerHTML = ranking.length
+    ? ranking.map((car, index) =>
+        `<p>${index + 1}. ${esc(car.name)} – ${car.count} Aufrufe</p>`
+      ).join('')
+    : 'Noch keine Fahrzeuge vorhanden.';
+  }
 function getImages(value) {
   if (!value) return [];
 
