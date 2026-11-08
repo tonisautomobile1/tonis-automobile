@@ -766,7 +766,7 @@ let modalImages = [];
 function openVehicleModal(index) {
   const car = vehicles[index];
   if (!car) return;
-
+trackVehicleView(car.id);
   modalImages = getImages(car.Bilder);
 
   const title = car.Titel ||
