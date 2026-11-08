@@ -1442,6 +1442,11 @@ loadReviews();
 loadCars();
 checkAdmin();
 trackPageView();
+  setInterval(() => {
+  if (isAdmin) {
+    loadStatistics();
+  }
+}, 30000);
 </script>
 </body>
 </html>
