@@ -728,7 +728,31 @@ function esc(value) {
     "'":'&#39;'
   }[c]));
 }
+function acceptStatistics() {
+  localStorage.setItem('tonis_statistics_consent', 'yes');
+  localStorage.removeItem('tonis_viewed_vehicles');
+
+  document.getElementById('statisticsConsent').style.display = 'none';
+
+  trackPageView();
+}
+
+function rejectStatistics() {
+  localStorage.setItem('tonis_statistics_consent', 'no');
+
+  document.getElementById('statisticsConsent').style.display = 'none';
+}
+
 async function trackPageView() {
+  const consent = localStorage.getItem('tonis_statistics_consent');
+
+  if (!consent) {
+    document.getElementById('statisticsConsent').style.display = 'block';
+    return;
+  }
+
+  if (consent !== 'yes') return;
+
   const { data: { session } } = await db.auth.getSession();
 
   if (!session) {
@@ -737,6 +761,8 @@ async function trackPageView() {
 }
 
 async function trackVehicleView(vehicleId) {
+  if (localStorage.getItem('tonis_statistics_consent') !== 'yes') return;
+
   const { data: { session } } = await db.auth.getSession();
 
   if (session) return;
