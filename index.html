@@ -739,10 +739,31 @@ async function trackPageView() {
 async function trackVehicleView(vehicleId) {
   const { data: { session } } = await db.auth.getSession();
 
-  if (!session) {
-    await db.from('FahrzeugAufrufe').insert({
-      fahrzeug_id: vehicleId
-    });
+  if (session) return;
+
+  const storageKey = 'tonis_viewed_vehicles';
+  const id = String(vehicleId);
+
+  let viewed = [];
+
+  try {
+    viewed = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  } catch (e) {
+    viewed = [];
+  }
+
+  if (viewed.includes(id)) return;
+
+  viewed.push(id);
+  localStorage.setItem(storageKey, JSON.stringify(viewed));
+
+  const { error } = await db.from('FahrzeugAufrufe').insert({
+    fahrzeug_id: vehicleId
+  });
+
+  if (error) {
+    viewed = viewed.filter(item => item !== id);
+    localStorage.setItem(storageKey, JSON.stringify(viewed));
   }
 }
   async function loadStatistics() {
