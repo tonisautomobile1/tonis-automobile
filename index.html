@@ -1469,5 +1469,26 @@ trackPageView();
   }
 }, 30000);
 </script>
+  <div id="statisticsConsent" style="
+  display:none;
+  position:fixed;
+  bottom:15px;
+  left:15px;
+  right:15px;
+  z-index:99999;
+  background:white;
+  color:#222;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 15px rgba(0,0,0,0.25);
+">
+  <p>
+    Wir verwenden eine einfache Besucherstatistik, um zu sehen,
+    welche Fahrzeuge besonders interessant sind.
+    Möchtest du diese Statistik unterstützen?
+  </p>
+  <button onclick="acceptStatistics()">Akzeptieren</button>
+  <button onclick="rejectStatistics()">Ablehnen</button>
+  </div>
 </body>
 </html>
