@@ -747,8 +747,18 @@ async function trackPageView() {
   const consent = localStorage.getItem('tonis_statistics_consent');
 
   if (!consent) {
-    document.getElementById('statisticsConsent').style.display = 'block';
-    return;
+  const showConsent = () => {
+    const box = document.getElementById('statisticsConsent');
+    if (box) box.style.display = 'block';
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showConsent, { once: true });
+  } else {
+    showConsent();
+  }
+
+  return;
   }
 
   if (consent !== 'yes') return;
