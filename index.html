@@ -563,7 +563,21 @@ p, label, input, select, textarea, button {
       <p>Du bist als Administrator angemeldet.</p>
       <button type="button" class="secondary" onclick="logout()">Abmelden</button>
     </div>
+<div class="panel">
+  <h3>📊 Webseiten-Statistik</h3>
 
+  <p>Gesamte Webseitenaufrufe:</p>
+  <h2 id="totalPageViews">Wird geladen ...</h2>
+
+  <h3>Fahrzeugaufrufe</h3>
+  <div id="vehicleStatistics">
+    Statistiken werden geladen ...
+  </div>
+
+  <button type="button" onclick="loadStatistics()">
+    Statistik aktualisieren
+  </button>
+</div>
     <div class="panel">
       <h3 id="formTitle">Fahrzeug hinzufügen</h3>
 
