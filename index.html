@@ -728,7 +728,23 @@ function esc(value) {
     "'":'&#39;'
   }[c]));
 }
+async function trackPageView() {
+  const { data: { session } } = await db.auth.getSession();
 
+  if (!session) {
+    await db.from('WebseitenAufrufe').insert({});
+  }
+}
+
+async function trackVehicleView(vehicleId) {
+  const { data: { session } } = await db.auth.getSession();
+
+  if (!session) {
+    await db.from('FahrzeugAufrufe').insert({
+      fahrzeug_id: vehicleId
+    });
+  }
+}
 function getImages(value) {
   if (!value) return [];
 
