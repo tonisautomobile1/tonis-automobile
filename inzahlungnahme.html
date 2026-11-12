@@ -1,1 +1,212 @@
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fahrzeug in Zahlung geben | Toni's Automobile</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 25px;
+      background: #1d1d1d;
+      border: 1px solid #b99a55;
+      border-radius: 12px;
+    }
+
+    h1, h2 {
+      color: #d5b66a;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 13px;
+      margin-top: 5px;
+      border: 1px solid #777;
+      border-radius: 6px;
+      background: #292929;
+      color: white;
+      font-size: 16px;
+    }
+
+    textarea { min-height: 100px; }
+
+    button, .button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 22px;
+      border: none;
+      border-radius: 6px;
+      background: #c5a45b;
+      color: #111;
+      font-size: 17px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.6; }
+
+    .back {
+      display: block;
+      margin-top: 20px;
+      color: #d5b66a;
+      text-align: center;
+    }
+
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #c5a45b;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🚗 Fahrzeug in Zahlung geben</h1>
+
+    <p>
+      Sie möchten Ihr Fahrzeug verkaufen oder in Zahlung geben?
+      Senden Sie uns Ihre Fahrzeugdaten. Wir melden uns bei Ihnen!
+    </p>
+
+    <form id="tradeInForm">
+      <h2>Fahrzeugdaten</h2>
+
+      <label>Marke *</label>
+      <input name="marke" required>
+
+      <label>Modell *</label>
+      <input name="modell" required>
+
+      <label>Erstzulassung</label>
+      <input name="erstzulassung" placeholder="z. B. 05/2018">
+
+      <label>Kilometerstand</label>
+      <input name="kilometerstand" placeholder="z. B. 85000 km">
+
+      <label>Kraftstoff</label>
+      <input name="kraftstoff" placeholder="Benzin, Diesel, Hybrid">
+
+      <label>Getriebe</label>
+      <input name="getriebe" placeholder="Schaltung oder Automatik">
+
+      <label>Zustand</label>
+      <textarea name="zustand"></textarea>
+
+      <label>Preisvorstellung</label>
+      <input name="preisvorstellung" placeholder="z. B. 12.000 €">
+
+      <h2>Kontaktdaten</h2>
+
+      <label>Name *</label>
+      <input name="name" required>
+
+      <label>Telefon *</label>
+      <input name="telefon" type="tel" required>
+
+      <label>E-Mail</label>
+      <input name="email" type="email">
+
+      <label>Nachricht</label>
+      <textarea name="nachricht"></textarea>
+
+      <button type="submit" id="submitButton">
+        Anfrage absenden
+      </button>
+    </form>
+
+    <div id="result">
+      <p>Vielen Dank! Ihre Anfrage wurde erfolgreich gespeichert.</p>
+      <a id="whatsappLink" class="button"
+         target="_blank" rel="noopener">
+        💬 Anfrage per WhatsApp senden
+      </a>
+    </div>
+
+    <a class="back" href="index.html">← Zurück zur Startseite</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const db = window.supabase.createClient(
+      'https://ylgaecxpjpwcqckspfkq.supabase.co',
+      'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu'
+    );
+
+    document.getElementById('tradeInForm')
+      .addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const button = document.getElementById('submitButton');
+        const data = Object.fromEntries(
+          new FormData(form).entries()
+        );
+
+        button.disabled = true;
+        button.textContent = 'Wird gesendet ...';
+
+        const { error } = await db
+          .from('Inzahlungnahmen')
+          .insert([data]);
+
+        if (error) {
+          alert('Fehler beim Speichern: ' + error.message);
+          button.disabled = false;
+          button.textContent = 'Anfrage absenden';
+          return;
+        }
+
+        const message =
+          'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug in Zahlung geben:\n\n' +
+          'Marke: ' + data.marke + '\n' +
+          'Modell: ' + data.modell + '\n' +
+          'Erstzulassung: ' + data.erstzulassung + '\n' +
+          'Kilometerstand: ' + data.kilometerstand + '\n' +
+          'Kraftstoff: ' + data.kraftstoff + '\n' +
+          'Getriebe: ' + data.getriebe + '\n' +
+          'Zustand: ' + data.zustand + '\n' +
+          'Preisvorstellung: ' + data.preisvorstellung + '\n\n' +
+          'Name: ' + data.name + '\n' +
+          'Telefon: ' + data.telefon + '\n' +
+          'E-Mail: ' + data.email + '\n' +
+          'Nachricht: ' + data.nachricht;
+
+        document.getElementById('whatsappLink').href =
+          'https://wa.me/4917683412627?text=' +
+          encodeURIComponent(message);
+
+        form.style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+      });
+  </script>
+</body>
+</html>
+
