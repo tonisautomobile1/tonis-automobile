@@ -899,14 +899,15 @@ async function trackVehicleView(vehicleId) {
   }
   
 
+
 async function loadTradeInRequests() {
   if (!isAdmin) return;
 
   const area = document.getElementById('tradeInRequests');
   if (!area) return;
 
-  area.textContent = 'Admin-Funktion gestartet – Anfragen werden geladen ...';
-console.log('loadTradeInRequests gestartet');
+  area.textContent = 'Inzahlungnahme-Anfragen werden geladen ...';
+
   const { data, error } = await db
     .from('Inzahlungnahmen')
     .select('*')
@@ -917,12 +918,17 @@ console.log('loadTradeInRequests gestartet');
     return;
   }
 
-  if (!data || data.length === 0) {
-    area.textContent = 'Noch keine Inzahlungnahme-Anfragen vorhanden.';
+  // Abgelehnte Angebote aus der Anzeige herausfiltern
+  const offeneAnfragen = (data || []).filter(a =>
+    String(a.status || '').trim().toLowerCase() !== 'abgelehnt'
+  );
+
+  if (offeneAnfragen.length === 0) {
+    area.textContent = 'Keine offenen Inzahlungnahme-Anfragen vorhanden.';
     return;
   }
 
-  const cards = await Promise.all(data.map(async a => {
+  const cards = await Promise.all(offeneAnfragen.map(async a => {
     let imageHtml = '';
     const paths = getImages(a.bilder);
 
@@ -976,10 +982,6 @@ console.log('loadTradeInRequests gestartet');
         ${imageHtml}
 
         <p><strong>Status:</strong> ${esc(a.status || 'Neu')}</p>
-        ${a.ablehnungsgrund ? `
-          <p><strong>Ablehnungsgrund:</strong>
-          ${esc(a.ablehnungsgrund)}</p>
-        ` : ''}
 
         <button type="button"
           onclick="updateTradeInStatus('${id}', 'Angenommen')">
@@ -996,6 +998,7 @@ console.log('loadTradeInRequests gestartet');
 
   area.innerHTML = cards.join('');
 }
+
 
 async function updateTradeInStatus(id, status) {
   if (!isAdmin) return;
