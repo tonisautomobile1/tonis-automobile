@@ -616,6 +616,7 @@ p, label, input, select, textarea, button {
       <p>Du bist als Administrator angemeldet.</p>
       <button type="button" class="secondary" onclick="logout()">Abmelden</button>
     </div>
+
 <div class="panel">
   <h3>📊 Webseiten-Statistik</h3>
 
@@ -626,6 +627,23 @@ p, label, input, select, textarea, button {
   <div id="vehicleStatistics">
     Statistiken werden geladen ...
   </div>
+
+  <button type="button" onclick="loadStatistics()">
+    Statistik aktualisieren
+  </button>
+</div>
+
+<div class="panel">
+  <h3>🚗 Inzahlungnahme-Anfragen</h3>
+
+  <div id="tradeInRequests">
+    Anfragen werden geladen ...
+  </div>
+
+  <button type="button" onclick="loadTradeInRequests()">
+    Anfragen aktualisieren
+  </button>
+</div>
 
   <button type="button" onclick="loadStatistics()">
     Statistik aktualisieren
