@@ -496,40 +496,29 @@ p, label, input, select, textarea, button {
 
   </div>
 </div>
+
 <section id="bewertungen">
   <h2>Kundenbewertungen</h2>
 
   <div class="panel">
     <p>Deine Meinung ist uns wichtig! Teile deine Erfahrung mit Toni's Automobile.</p>
 
-    <form id="reviewForm">
-      <label for="reviewName">Dein Name</label>
-      <input id="reviewName" type="text" maxlength="80" required>
-
-      <label for="reviewStars">Deine Bewertung</label>
-      <select id="reviewStars" required>
-        <option value="5">★★★★★ – Sehr gut</option>
-        <option value="4">★★★★ – Gut</option>
-        <option value="3">★★★ – Mittel</option>
-        <option value="2">★★ – Schlecht</option>
-        <option value="1">★ – Sehr schlecht</option>
-      </select>
-
-      <label for="reviewComment">Dein Kommentar</label>
-      <textarea id="reviewComment" maxlength="1000" required></textarea>
-
-      <label style="display:block;margin:15px 0;">
-        <input type="checkbox" id="reviewConsent" required>
-        Ich bin damit einverstanden, dass mein Name und meine Bewertung nach Prüfung öffentlich auf der Website von Toni's Automobile angezeigt werden.
-      </label>
-
-      <button type="submit">Bewertung absenden</button>
-      <p id="reviewMessage" aria-live="polite"></p>
-    </form>
+    <a href="bewertung.html" style="
+      display:inline-block;
+      padding:14px 25px;
+      background:#d4af37;
+      color:#111;
+      text-decoration:none;
+      font-weight:bold;
+      border-radius:7px;
+    ">
+      ⭐ Jetzt bewerten
+    </a>
   </div>
 
   <div id="reviewsList"></div>
 </section>
+
 
 <section id="kontakt">
   <h2>Kontakt</h2>
