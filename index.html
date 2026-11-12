@@ -1044,6 +1044,56 @@ document.addEventListener('keydown', event => {
     closeVehicleModal();
   }
 });
+  
+async function submitTradeIn(event) {
+  event.preventDefault();
+
+  const form = document.getElementById('tradeInForm');
+  const result = document.getElementById('tradeInResult');
+  const whatsapp = document.getElementById('tradeInWhatsApp');
+  const button = form.querySelector('button[type="submit"]');
+
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  button.disabled = true;
+  button.textContent = 'Wird gesendet ...';
+
+  const { error } = await db
+    .from('Inzahlungnahmen')
+    .insert([data]);
+
+  if (error) {
+    alert('Die Anfrage konnte leider nicht gespeichert werden.');
+    console.error(error);
+    button.disabled = false;
+    button.textContent = 'Anfrage absenden';
+    return;
+  }
+
+  const message =
+    'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug in Zahlung geben:\n\n' +
+    'Marke: ' + data.marke + '\n' +
+    'Modell: ' + data.modell + '\n' +
+    'Erstzulassung: ' + data.erstzulassung + '\n' +
+    'Kilometerstand: ' + data.kilometerstand + '\n' +
+    'Kraftstoff: ' + data.kraftstoff + '\n' +
+    'Getriebe: ' + data.getriebe + '\n' +
+    'Zustand: ' + data.zustand + '\n' +
+    'Preisvorstellung: ' + data.preisvorstellung + '\n\n' +
+    'Name: ' + data.name + '\n' +
+    'Telefon: ' + data.telefon + '\n' +
+    'E-Mail: ' + data.email + '\n' +
+    'Nachricht: ' + data.nachricht;
+
+  whatsapp.href =
+    'https://wa.me/4917683412627?text=' + encodeURIComponent(message);
+
+  result.style.display = 'block';
+  form.reset();
+  button.disabled = false;
+  button.textContent = 'Anfrage absenden';
+}
+
 /* FAHRZEUGE LADEN */
 
 async function loadCars() {
