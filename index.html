@@ -920,6 +920,49 @@ async function trackVehicleView(vehicleId) {
       ).join('')
     : 'Noch keine Fahrzeuge vorhanden.';
   }
+  
+async function loadTradeInRequests() {
+  if (!isAdmin) return;
+
+  const area = document.getElementById('tradeInRequests');
+  if (!area) return;
+
+  area.textContent = 'Anfragen werden geladen ...';
+
+  const { data, error } = await db
+    .from('Inzahlungnahmen')
+    .select('*')
+    .order('erstellt_am', { ascending: false });
+
+  if (error) {
+    area.textContent = 'Fehler beim Laden: ' + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    area.textContent = 'Noch keine Inzahlungnahme-Anfragen vorhanden.';
+    return;
+  }
+
+  area.innerHTML = data.map(a => `
+    <div class="panel" style="margin-top:15px;">
+      <h3>${esc(a.marke || '')} ${esc(a.modell || '')}</h3>
+      <p><strong>Erstellt:</strong> ${esc(a.erstellt_am || '')}</p>
+      <p><strong>Erstzulassung:</strong> ${esc(a.erstzulassung || '')}</p>
+      <p><strong>Kilometer:</strong> ${esc(a.kilometerstand || '')}</p>
+      <p><strong>Kraftstoff:</strong> ${esc(a.kraftstoff || '')}</p>
+      <p><strong>Getriebe:</strong> ${esc(a.getriebe || '')}</p>
+      <p><strong>Zustand:</strong> ${esc(a.zustand || '')}</p>
+      <p><strong>Preisvorstellung:</strong> ${esc(a.preisvorstellung || '')}</p>
+      <p><strong>Name:</strong> ${esc(a.name || '')}</p>
+      <p><strong>Telefon:</strong> ${esc(a.telefon || '')}</p>
+      <p><strong>E-Mail:</strong> ${esc(a.email || '')}</p>
+      <p><strong>Nachricht:</strong> ${esc(a.nachricht || '')}</p>
+      <p><strong>Status:</strong> ${esc(a.status || 'Neu')}</p>
+    </div>
+  `).join('');
+}
+
 function getImages(value) {
   if (!value) return [];
 
