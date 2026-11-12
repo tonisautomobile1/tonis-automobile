@@ -1123,13 +1123,20 @@ async function submitTradeIn(event) {
     .from('Inzahlungnahmen')
     .insert([data]);
 
-  if (error) {
-    alert('Die Anfrage konnte leider nicht gespeichert werden.');
-    console.error(error);
-    button.disabled = false;
-    button.textContent = 'Anfrage absenden';
-    return;
-  }
+  
+if (error) {
+  alert(
+    'Fehler: ' + error.message +
+    '\nCode: ' + error.code +
+    '\nDetails: ' + (error.details || 'Keine')
+  );
+
+  console.error(error);
+  button.disabled = false;
+  button.textContent = 'Anfrage absenden';
+  return;
+}
+
 
   const message =
     'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug in Zahlung geben:\n\n' +
