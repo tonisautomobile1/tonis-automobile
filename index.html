@@ -940,8 +940,8 @@ async function loadTradeInRequests() {
   const area = document.getElementById('tradeInRequests');
   if (!area) return;
 
-  area.textContent = 'Anfragen werden geladen ...';
-
+  area.textContent = 'Admin-Funktion gestartet – Anfragen werden geladen ...';
+console.log('loadTradeInRequests gestartet');
   const { data, error } = await db
     .from('Inzahlungnahmen')
     .select('*')
