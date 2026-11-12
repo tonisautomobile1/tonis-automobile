@@ -933,6 +933,7 @@ async function trackVehicleView(vehicleId) {
     : 'Noch keine Fahrzeuge vorhanden.';
   }
   
+
 async function loadTradeInRequests() {
   if (!isAdmin) return;
 
@@ -956,39 +957,116 @@ async function loadTradeInRequests() {
     return;
   }
 
-  area.innerHTML = data.map(a => `
-    <div class="panel" style="margin-top:15px;">
-      <h3>${esc(a.marke || '')} ${esc(a.modell || '')}</h3>
-      <p><strong>Erstellt:</strong> ${esc(a.erstellt_am || '')}</p>
-      <p><strong>Erstzulassung:</strong> ${esc(a.erstzulassung || '')}</p>
-      <p><strong>Kilometer:</strong> ${esc(a.kilometerstand || '')}</p>
-      <p><strong>Kraftstoff:</strong> ${esc(a.kraftstoff || '')}</p>
-      <p><strong>Getriebe:</strong> ${esc(a.getriebe || '')}</p>
-      <p><strong>Zustand:</strong> ${esc(a.zustand || '')}</p>
-      <p><strong>Preisvorstellung:</strong> ${esc(a.preisvorstellung || '')}</p>
-      <p><strong>Name:</strong> ${esc(a.name || '')}</p>
-      <p><strong>Telefon:</strong> ${esc(a.telefon || '')}</p>
-      <p><strong>E-Mail:</strong> ${esc(a.email || '')}</p>
-      <p><strong>Nachricht:</strong> ${esc(a.nachricht || '')}</p>
-      <p><strong>Status:</strong> ${esc(a.status || 'Neu')}</p>
-    </div>
-  `).join('');
+  const cards = await Promise.all(data.map(async a => {
+    let imageHtml = '';
+    const paths = getImages(a.bilder);
+
+    if (paths.length > 0) {
+      const images = await Promise.all(paths.map(async path => {
+        const { data: signed, error: imageError } = await db.storage
+          .from('Inzahlungnahme-Bilder')
+          .createSignedUrl(path, 3600);
+
+        if (imageError || !signed) {
+          return '<p>Bild konnte nicht geladen werden.</p>';
+        }
+
+        return `
+          <a href="${esc(signed.signedUrl)}" target="_blank" rel="noopener">
+            <img src="${esc(signed.signedUrl)}"
+                 alt="Fahrzeugbild"
+                 style="width:140px;height:110px;object-fit:cover;
+                        border-radius:8px;margin:5px;">
+          </a>
+        `;
+      }));
+
+      imageHtml = `
+        <h4>📸 Fahrzeugbilder</h4>
+        <div style="display:flex;flex-wrap:wrap;">
+          ${images.join('')}
+        </div>
+      `;
+    } else {
+      imageHtml = '<p>Keine Bilder hochgeladen.</p>';
+    }
+
+    const id = Number(a.id);
+
+    return `
+      <div class="panel" style="margin-top:15px;">
+        <h3>${esc(a.marke || '')} ${esc(a.modell || '')}</h3>
+        <p><strong>Erstellt:</strong> ${esc(a.erstellt_am || '')}</p>
+        <p><strong>Erstzulassung:</strong> ${esc(a.erstzulassung || '')}</p>
+        <p><strong>Kilometer:</strong> ${esc(a.kilometerstand || '')}</p>
+        <p><strong>Kraftstoff:</strong> ${esc(a.kraftstoff || '')}</p>
+        <p><strong>Getriebe:</strong> ${esc(a.getriebe || '')}</p>
+        <p><strong>Zustand:</strong> ${esc(a.zustand || '')}</p>
+        <p><strong>Preisvorstellung:</strong> ${esc(a.preisvorstellung || '')}</p>
+        <p><strong>Name:</strong> ${esc(a.name || '')}</p>
+        <p><strong>Telefon:</strong> ${esc(a.telefon || '')}</p>
+        <p><strong>E-Mail:</strong> ${esc(a.email || '')}</p>
+        <p><strong>Nachricht:</strong> ${esc(a.nachricht || '')}</p>
+
+        ${imageHtml}
+
+        <p><strong>Status:</strong> ${esc(a.status || 'Neu')}</p>
+        ${a.ablehnungsgrund ? `
+          <p><strong>Ablehnungsgrund:</strong>
+          ${esc(a.ablehnungsgrund)}</p>
+        ` : ''}
+
+        <button type="button"
+          onclick="updateTradeInStatus('${id}', 'Angenommen')">
+          ✅ Annehmen
+        </button>
+
+        <button type="button"
+          onclick="updateTradeInStatus('${id}', 'Abgelehnt')">
+          ❌ Ablehnen
+        </button>
+      </div>
+    `;
+  }));
+
+  area.innerHTML = cards.join('');
 }
 
-function getImages(value) {
-  if (!value) return [];
+async function updateTradeInStatus(id, status) {
+  if (!isAdmin) return;
 
-  try {
-    const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed : [value];
-  } catch {
-    return [value];
+  let reason = null;
+
+  if (status === 'Abgelehnt') {
+    reason = prompt('Bitte gib den Ablehnungsgrund ein:');
+
+    if (reason === null) return;
+
+    if (!reason.trim()) {
+      alert('Bitte einen Ablehnungsgrund eingeben.');
+      return;
+    }
+  } else {
+    if (!confirm('Möchtest du diese Anfrage annehmen?')) return;
   }
+
+  const { error } = await db
+    .from('Inzahlungnahmen')
+    .update({
+      status: status,
+      ablehnungsgrund: reason
+    })
+    .eq('id', id);
+
+  if (error) {
+    alert('Fehler beim Aktualisieren: ' + error.message);
+    return;
+  }
+
+  alert('Anfrage wurde aktualisiert.');
+  await loadTradeInRequests();
 }
 
-function euro(value) {
-  return Number(value || 0).toLocaleString('de-DE') + ' €';
-}
 /* FAHRZEUG-DETAILFENSTER STEUERN */
 
 let modalImages = [];
