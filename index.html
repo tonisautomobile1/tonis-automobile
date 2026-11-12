@@ -757,6 +757,30 @@ function esc(value) {
     "'":'&#39;'
   }[c]));
 }
+  function getImages(value) {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+    return value.filter(Boolean);
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+
+    if (Array.isArray(parsed)) {
+      return parsed.filter(Boolean);
+    }
+
+    return parsed ? [parsed] : [];
+  } catch (error) {
+    return [String(value)];
+  }
+}
+
+function euro(value) {
+  const amount = Number(value || 0);
+  return amount.toLocaleString('de-DE') + ' €';
+}
 function acceptStatistics() {
   localStorage.setItem('tonis_statistics_consent', 'yes');
   localStorage.removeItem('tonis_viewed_vehicles');
