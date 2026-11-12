@@ -905,7 +905,17 @@ async function loadTradeInRequests() {
 
   const area = document.getElementById('tradeInRequests');
   if (!area) return;
-
+// Automatische Aktualisierung alle 10 Sekunden
+if (!window.tradeInRequestsTimer) {
+  window.tradeInRequestsTimer = setInterval(() => {
+    if (isAdmin) {
+      loadTradeInRequests();
+    } else {
+      clearInterval(window.tradeInRequestsTimer);
+      window.tradeInRequestsTimer = null;
+    }
+  }, 10000);
+}
   area.textContent = 'Inzahlungnahme-Anfragen werden geladen ...';
 
   const { data, error } = await db
