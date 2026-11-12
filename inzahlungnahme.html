@@ -323,52 +323,100 @@
       'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu'
     );
 
-    document.getElementById('tradeInForm')
-      .addEventListener('submit', async function(event) {
-        event.preventDefault();
+    
+document.getElementById('tradeInForm')
+  .addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-        const form = event.target;
-        const button = document.getElementById('submitButton');
-        const data = Object.fromEntries(
-          new FormData(form).entries()
-        );
+    const form = event.target;
+    const button = document.getElementById('submitButton');
+    const data = Object.fromEntries(
+      new FormData(form).entries()
+    );
 
-        button.disabled = true;
-        button.textContent = 'Wird gesendet ...';
+    const fileInput = document.getElementById('fahrzeugbilder');
+    const files = Array.from(fileInput.files);
 
-        const { error } = await db
-          .from('Inzahlungnahmen')
-          .insert([data]);
+    if (files.length > 8) {
+      alert('Bitte maximal 8 Bilder auswählen.');
+      return;
+    }
 
-        if (error) {
-          alert('Fehler beim Speichern: ' + error.message);
-          button.disabled = false;
-          button.textContent = 'Anfrage absenden';
-          return;
-        }
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) {
+        alert('Bitte nur Bilddateien auswählen.');
+        return;
+      }
 
-        const message =
-          'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug verkaufen oder in Zahlung geben:\n\n' +
-          'Marke: ' + data.marke + '\n' +
-          'Modell: ' + data.modell + '\n' +
-          'Erstzulassung: ' + data.erstzulassung + '\n' +
-          'Kilometerstand: ' + data.kilometerstand + '\n' +
-          'Kraftstoff: ' + data.kraftstoff + '\n' +
-          'Getriebe: ' + data.getriebe + '\n' +
-          'Zustand: ' + data.zustand + '\n' +
-          'Preisvorstellung: ' + data.preisvorstellung + '\n\n' +
-          'Name: ' + data.name + '\n' +
-          'Telefon: ' + data.telefon + '\n' +
-          'E-Mail: ' + data.email + '\n' +
-          'Nachricht: ' + data.nachricht;
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Jedes Bild darf maximal 5 MB groß sein.');
+        return;
+      }
+    }
 
-        document.getElementById('whatsappLink').href =
-          'https://wa.me/4917683412627?text=' +
-          encodeURIComponent(message);
+    button.disabled = true;
+    button.textContent = 'Bilder werden gespeichert ...';
 
-        form.style.display = 'none';
-        document.getElementById('result').style.display = 'block';
-      });
+    const uploadedPaths = [];
+    const folder = 'anfragen/' + crypto.randomUUID();
+
+    try {
+      for (const file of files) {
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const path = folder + '/' + safeName;
+
+        const { error: uploadError } = await db.storage
+          .from('Inzahlungnahme-Bilder')
+          .upload(path, file, {
+            upsert: false,
+            contentType: file.type
+          });
+
+        if (uploadError) throw uploadError;
+
+        uploadedPaths.push(path);
+      }
+
+      data.bilder = JSON.stringify(uploadedPaths);
+
+      button.textContent = 'Anfrage wird gespeichert ...';
+
+      const { error } = await db
+        .from('Inzahlungnahmen')
+        .insert([data]);
+
+      if (error) throw error;
+
+      const message =
+        'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug verkaufen oder in Zahlung geben:\n\n' +
+        'Marke: ' + data.marke + '\n' +
+        'Modell: ' + data.modell + '\n' +
+        'Erstzulassung: ' + data.erstzulassung + '\n' +
+        'Kilometerstand: ' + data.kilometerstand + '\n' +
+        'Kraftstoff: ' + data.kraftstoff + '\n' +
+        'Getriebe: ' + data.getriebe + '\n' +
+        'Zustand: ' + data.zustand + '\n' +
+        'Preisvorstellung: ' + data.preisvorstellung + '\n\n' +
+        'Name: ' + data.name + '\n' +
+        'Telefon: ' + data.telefon + '\n' +
+        'E-Mail: ' + data.email + '\n' +
+        'Nachricht: ' + data.nachricht;
+
+      document.getElementById('whatsappLink').href =
+        'https://wa.me/4917683412627?text=' +
+        encodeURIComponent(message);
+
+      form.style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+
+    } catch (error) {
+      alert('Fehler beim Speichern: ' + error.message);
+      console.error(error);
+      button.disabled = false;
+      button.textContent = 'Anfrage absenden';
+    }
+  });
+
   </script>
 
 </body>
