@@ -1563,42 +1563,6 @@ async function loadReviews() {
   }).join('') || '<p>Noch keine freigegebenen Bewertungen.</p>';
 }
 
-/* NEUE BEWERTUNG SENDEN */
-
-document.getElementById('reviewForm').addEventListener('submit', async event => {
-  event.preventDefault();
-
-  const message = document.getElementById('reviewMessage');
-  const consent = document.getElementById('reviewConsent').checked;
-
-  if (!consent) {
-    message.textContent =
-      'Bitte bestätige zuerst die Einwilligung.';
-    return;
-  }
-
-  message.textContent = 'Bewertung wird gesendet …';
-
-  const {error} = await db.from('bewertungen').insert({
-    Name: document.getElementById('reviewName').value.trim(),
-    Sterne: Number(document.getElementById('reviewStars').value),
-    Kommentar: document.getElementById('reviewComment').value.trim(),
-    Freigeben: false,
-    Einwilligung: consent
-  });
-
-  if (error) {
-    message.textContent =
-      'Fehler beim Senden: ' + error.message;
-    return;
-  }
-
-  message.textContent =
-    'Vielen Dank! Deine Bewertung wird nach Prüfung veröffentlicht.';
-
-  event.target.reset();
-});
-
 /* NOCH NICHT FREIGEGEBENE BEWERTUNGEN IM ADMINBEREICH */
 
 async function loadPendingReviews() {
