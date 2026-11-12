@@ -5,41 +5,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kundenbewertung – Toni's Automobile</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+
+    :root { --gold: #d4af37; }
 
     body {
       margin: 0;
-      padding: 25px 15px;
       background: #111;
       color: #eee;
       font-family: Arial, sans-serif;
     }
 
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 15px 25px;
+      background: #0d1014;
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .logo img {
+      max-width: 180px;
+      height: auto;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    nav a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    nav a:hover { color: white; }
+
     .container {
       max-width: 650px;
       margin: 35px auto;
+      padding: 0 15px;
     }
 
     h1 {
-      color: #d4af37;
+      color: var(--gold);
       text-align: center;
     }
 
     .panel {
       background: #1c1c1c;
-      border: 1px solid #b8952e;
+      border: 1px solid var(--gold);
       border-radius: 12px;
       padding: 25px;
       margin-top: 25px;
     }
 
-    p {
-      line-height: 1.6;
-    }
+    p { line-height: 1.6; }
 
     label {
       display: block;
@@ -77,7 +104,7 @@
     button {
       width: 100%;
       padding: 14px;
-      background: #d4af37;
+      background: var(--gold);
       color: #111;
       border: none;
       border-radius: 7px;
@@ -87,139 +114,140 @@
     }
 
     button:disabled {
-      opacity: 0.6;
+      opacity: .6;
       cursor: not-allowed;
-    }
-
-    .back {
-      display: block;
-      text-align: center;
-      color: #d4af37;
-      margin-top: 25px;
-      text-decoration: none;
     }
 
     #reviewMessage {
       margin-top: 18px;
       overflow-wrap: anywhere;
     }
+
+    footer {
+      margin-top: 45px;
+      padding: 25px;
+      text-align: center;
+      background: #0d1014;
+      border-top: 1px solid var(--gold);
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav { justify-content: center; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>⭐ Kundenbewertung</h1>
 
-    <div class="panel">
-      <p>
-        Deine Meinung ist uns wichtig!
-        Teile deine Erfahrung mit Toni's Automobile.
-      </p>
-
-      <form id="reviewForm">
-        <label for="reviewName">Dein Name</label>
-        <input
-          id="reviewName"
-          type="text"
-          maxlength="80"
-          required
-        >
-
-        <label for="reviewStars">Deine Bewertung</label>
-        <select id="reviewStars" required>
-          <option value="5">★★★★★ – Sehr gut</option>
-          <option value="4">★★★★ – Gut</option>
-          <option value="3">★★★ – Mittel</option>
-          <option value="2">★★ – Schlecht</option>
-          <option value="1">★ – Sehr schlecht</option>
-        </select>
-
-        <label for="reviewComment">Dein Kommentar</label>
-        <textarea
-          id="reviewComment"
-          maxlength="1000"
-          required
-        ></textarea>
-
-        <label class="consent">
-          <input type="checkbox" id="reviewConsent" required>
-          <span>
-            Ich bin damit einverstanden, dass mein Name und meine
-            Bewertung nach Prüfung öffentlich auf der Website von
-            Toni's Automobile angezeigt werden.
-          </span>
-        </label>
-
-        <button type="submit" id="submitButton">
-          Bewertung absenden
-        </button>
-
-        <p id="reviewMessage" aria-live="polite"></p>
-      </form>
-    </div>
-
-    <a class="back" href="index.html">
-      ← Zurück zu Toni's Automobile
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="tonis-logo.jpg" alt="Toni's Automobile">
     </a>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <nav>
+    <a href="index.html#ueber-uns">Über uns</a>
+    <a href="index.html#autos">Fahrzeuge</a>
+    <a href="index.html#bewertungen">Bewertungen</a>
+    <a href="index.html#kontakt">Kontakt</a>
+  </nav>
+</header>
 
-  <script>
-    const db = supabase.createClient(
-      'https://ylgaecxpjpwcqckspfkq.supabase.co',
-      'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu'
-    );
+<main class="container">
+  <h1>⭐ Kundenbewertung</h1>
 
-    document.getElementById('reviewForm')
-      .addEventListener('submit', async event => {
+  <div class="panel">
+    <p>Deine Meinung ist uns wichtig! Teile deine Erfahrung mit Toni's Automobile.</p>
 
-        event.preventDefault();
+    <form id="reviewForm">
+      <label for="reviewName">Dein Name</label>
+      <input id="reviewName" type="text" maxlength="80" required>
 
-        const message = document.getElementById('reviewMessage');
-        const button = document.getElementById('submitButton');
+      <label for="reviewStars">Deine Bewertung</label>
+      <select id="reviewStars" required>
+        <option value="5">★★★★★ – Sehr gut</option>
+        <option value="4">★★★★ – Gut</option>
+        <option value="3">★★★ – Mittel</option>
+        <option value="2">★★ – Schlecht</option>
+        <option value="1">★ – Sehr schlecht</option>
+      </select>
 
-        const name = document.getElementById('reviewName').value.trim();
-        const comment = document.getElementById('reviewComment').value.trim();
-        const stars = Number(document.getElementById('reviewStars').value);
-        const consent = document.getElementById('reviewConsent').checked;
+      <label for="reviewComment">Dein Kommentar</label>
+      <textarea id="reviewComment" maxlength="1000" required></textarea>
 
-        if (!name || !comment || !consent) {
-          message.textContent = 'Bitte fülle alle Felder aus und bestätige die Einwilligung.';
-          return;
-        }
+      <label class="consent">
+        <input type="checkbox" id="reviewConsent" required>
+        <span>Ich bin damit einverstanden, dass mein Name und meine Bewertung nach Prüfung öffentlich auf der Website von Toni's Automobile angezeigt werden.</span>
+      </label>
 
-        message.textContent = 'Bewertung wird gesendet ...';
-        button.disabled = true;
+      <button type="submit" id="submitButton">Bewertung absenden</button>
+      <p id="reviewMessage" aria-live="polite"></p>
+    </form>
+  </div>
+</main>
 
-        try {
-          const { error } = await db
-            .from('bewertungen')
-            .insert({
-              Name: name,
-              Sterne: stars,
-              Kommentar: comment,
-              Freigeben: false,
-              Einwilligung: consent
-            });
+<footer>
+  <p>© Toni's Automobile</p>
+  <a href="index.html">Zurück zur Startseite</a>
+</footer>
 
-          if (error) {
-            throw error;
-          }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const db = supabase.createClient(
+    'https://ylgaecxpjpwcqckspfkq.supabase.co',
+    'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu'
+  );
 
-          message.textContent =
-            'Vielen Dank! Deine Bewertung wird nach Prüfung veröffentlicht.';
+  document.getElementById('reviewForm').addEventListener('submit', async event => {
+    event.preventDefault();
 
-          event.target.reset();
+    const message = document.getElementById('reviewMessage');
+    const button = document.getElementById('submitButton');
 
-        } catch (error) {
-          message.textContent =
-            'Fehler beim Senden: ' + error.message;
-        } finally {
-          button.disabled = false;
-        }
+    const name = document.getElementById('reviewName').value.trim();
+    const comment = document.getElementById('reviewComment').value.trim();
+    const stars = Number(document.getElementById('reviewStars').value);
+    const consent = document.getElementById('reviewConsent').checked;
+
+    if (!name || !comment || !consent) {
+      message.textContent = 'Bitte fülle alle Felder aus und bestätige die Einwilligung.';
+      return;
+    }
+
+    message.textContent = 'Bewertung wird gesendet ...';
+    button.disabled = true;
+
+    try {
+      const { error } = await db.from('bewertungen').insert({
+        Name: name,
+        Sterne: stars,
+        Kommentar: comment,
+        Freigeben: false,
+        Einwilligung: consent
       });
-  </script>
+
+      if (error) throw error;
+
+      message.textContent = 'Vielen Dank! Deine Bewertung wird nach Prüfung veröffentlicht.';
+      event.target.reset();
+    } catch (error) {
+      message.textContent = 'Fehler beim Senden: ' + error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
+
 </body>
 </html>
-
