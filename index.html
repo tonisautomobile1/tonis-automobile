@@ -1013,6 +1013,8 @@ async function loadCars() {
 
 /* FAHRZEUGE ANZEIGEN */
 
+
+
 function renderCars() {
   const area = document.getElementById('cars');
 
@@ -1058,8 +1060,6 @@ function renderCars() {
 
           <p class="price">${euro(car.Preis)}</p>
 
-          <p>${esc(car.Beschreibung || '')}</p>
-
           <p class="muted">Tippen für alle Fahrzeugdaten und Bilder</p>
 
           <a class="button"
@@ -1074,6 +1074,7 @@ function renderCars() {
     `;
   }).join('');
 }
+
 
 /* ADMIN PRÜFEN */
 
