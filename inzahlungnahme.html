@@ -4,61 +4,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fahrzeug in Zahlung geben | Toni's Automobile</title>
+  <title>Fahrzeugankauf & Inzahlungnahme | Toni's Automobile</title>
+  <meta name="description" content="Toni's Automobile kauft Ihr Fahrzeug oder nimmt es in Zahlung. Senden Sie uns Ihre Fahrzeugdaten.">
 
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      padding: 20px;
-      background: #111;
-      color: white;
+      background: #101010;
+      color: #f5f5f5;
       font-family: Arial, sans-serif;
       font-size: 17px;
       line-height: 1.6;
     }
 
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 25px;
-      background: #1d1d1d;
-      border: 1px solid #b99a55;
-      border-radius: 12px;
+    header {
+      text-align: center;
+      padding: 35px 20px 25px;
+      background: linear-gradient(180deg, #080808, #191919);
+      border-bottom: 1px solid #b99a55;
     }
 
-    h1, h2 {
+    .logo {
+      width: 150px;
+      max-width: 55%;
+      height: auto;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    .brand {
       color: #d5b66a;
+      font-size: 27px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin: 0;
+    }
+
+    .tagline {
+      color: #bbb;
+      letter-spacing: 4px;
+      font-size: 12px;
+      margin: 2px 0 0;
+    }
+
+    .hero {
       text-align: center;
+      padding: 38px 20px 30px;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .hero h1 {
+      color: #d5b66a;
+      font-size: clamp(27px, 5vw, 39px);
+      line-height: 1.2;
+      margin: 0 0 15px;
+    }
+
+    .hero p {
+      color: #ccc;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .benefits {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .benefit {
+      border: 1px solid #6f5b31;
+      border-radius: 30px;
+      padding: 8px 15px;
+      color: #e0c47e;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 10px auto 40px;
+      padding: 28px;
+      background: #1b1b1b;
+      border: 1px solid #8e753e;
+      border-radius: 14px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.35);
+    }
+
+    h2 {
+      color: #d5b66a;
+      font-size: 22px;
+      margin: 12px 0 5px;
+    }
+
+    .section-intro {
+      color: #aaa;
+      font-size: 14px;
+      margin: 0 0 18px;
     }
 
     label {
       display: block;
       margin-top: 15px;
+      font-weight: bold;
+      color: #eee;
     }
 
     input, textarea, select {
       width: 100%;
-      padding: 13px;
-      margin-top: 5px;
-      border: 1px solid #777;
-      border-radius: 6px;
+      padding: 14px;
+      margin-top: 6px;
+      border: 1px solid #555;
+      border-radius: 7px;
       background: #292929;
       color: white;
       font-size: 16px;
     }
 
-    textarea { min-height: 100px; }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #d5b66a;
+    }
+
+    textarea { min-height: 105px; resize: vertical; }
+
+    .divider {
+      height: 1px;
+      background: #51452e;
+      margin: 28px 0;
+    }
 
     button, .button {
       display: block;
       width: 100%;
-      padding: 14px;
-      margin-top: 22px;
+      padding: 15px;
+      margin-top: 25px;
       border: none;
-      border-radius: 6px;
-      background: #c5a45b;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #e0c47e, #b18d43);
       color: #111;
       font-size: 17px;
       font-weight: bold;
@@ -67,90 +154,155 @@
       cursor: pointer;
     }
 
-    button:disabled { opacity: 0.6; }
-
-    .back {
-      display: block;
-      margin-top: 20px;
-      color: #d5b66a;
-      text-align: center;
-    }
+    button:disabled { opacity: .6; }
 
     #result {
       display: none;
-      margin-top: 20px;
-      padding: 15px;
+      margin-top: 22px;
+      padding: 20px;
       border: 1px solid #c5a45b;
-      border-radius: 8px;
+      border-radius: 9px;
+      text-align: center;
+    }
+
+    #result h2 { margin-top: 0; }
+
+    .back {
+      display: block;
+      margin-top: 25px;
+      color: #d5b66a;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .back:hover { text-decoration: underline; }
+
+    footer {
+      padding: 22px;
+      text-align: center;
+      color: #888;
+      border-top: 1px solid #393027;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 5px 12px 30px;
+        padding: 20px 16px;
+      }
+
+      .brand { font-size: 23px; }
+      .hero { padding-top: 30px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>🚗 Fahrzeug in Zahlung geben</h1>
 
+  <header>
+    <img src="tonis-logo.jpg" alt="Toni's Automobile Logo" class="logo">
+    <p class="brand">TONI'S AUTOMOBILE</p>
+    <p class="tagline">LUXURY CARS</p>
+  </header>
+
+  <section class="hero">
+    <h1>Fahrzeugankauf & Inzahlungnahme</h1>
     <p>
-      Sie möchten Ihr Fahrzeug verkaufen oder in Zahlung geben?
-      Senden Sie uns Ihre Fahrzeugdaten. Wir melden uns bei Ihnen!
+      Wir kaufen Ihr Fahrzeug – auch wenn Sie keines unserer Fahrzeuge
+      kaufen möchten. Teilen Sie uns einfach die wichtigsten Daten mit.
+      Wir melden uns persönlich bei Ihnen!
     </p>
 
+    <div class="benefits">
+      <span class="benefit">✓ Persönlich</span>
+      <span class="benefit">✓ Transparent</span>
+      <span class="benefit">✓ Unkompliziert</span>
+    </div>
+  </section>
+
+  <main class="container">
+
     <form id="tradeInForm">
-      <h2>Fahrzeugdaten</h2>
+
+      <h2>🚗 Fahrzeugdaten</h2>
+      <p class="section-intro">Erzählen Sie uns etwas über Ihr Fahrzeug.</p>
 
       <label>Marke *</label>
-      <input name="marke" required>
+      <input name="marke" placeholder="z. B. BMW" required>
 
       <label>Modell *</label>
-      <input name="modell" required>
+      <input name="modell" placeholder="z. B. 320d" required>
 
       <label>Erstzulassung</label>
       <input name="erstzulassung" placeholder="z. B. 05/2018">
 
       <label>Kilometerstand</label>
-      <input name="kilometerstand" placeholder="z. B. 85000 km">
+      <input name="kilometerstand" placeholder="z. B. 85.000 km">
 
       <label>Kraftstoff</label>
-      <input name="kraftstoff" placeholder="Benzin, Diesel, Hybrid">
+      <select name="kraftstoff">
+        <option value="">Bitte auswählen</option>
+        <option>Benzin</option>
+        <option>Diesel</option>
+        <option>Hybrid</option>
+        <option>Plug-in-Hybrid</option>
+        <option>Elektro</option>
+        <option>Autogas / LPG</option>
+        <option>Sonstiges</option>
+      </select>
 
       <label>Getriebe</label>
-      <input name="getriebe" placeholder="Schaltung oder Automatik">
+      <select name="getriebe">
+        <option value="">Bitte auswählen</option>
+        <option>Schaltgetriebe</option>
+        <option>Automatik</option>
+      </select>
 
-      <label>Zustand</label>
-      <textarea name="zustand"></textarea>
+      <label>Zustand des Fahrzeugs</label>
+      <textarea name="zustand" placeholder="Beschreiben Sie den Zustand, eventuelle Schäden oder Besonderheiten ..."></textarea>
 
-      <label>Preisvorstellung</label>
+      <label>Ihre Preisvorstellung</label>
       <input name="preisvorstellung" placeholder="z. B. 12.000 €">
 
-      <h2>Kontaktdaten</h2>
+      <div class="divider"></div>
+
+      <h2>👤 Ihre Kontaktdaten</h2>
+      <p class="section-intro">Damit wir Sie erreichen können.</p>
 
       <label>Name *</label>
-      <input name="name" required>
+      <input name="name" placeholder="Ihr Vor- und Nachname" required>
 
       <label>Telefon *</label>
-      <input name="telefon" type="tel" required>
+      <input name="telefon" type="tel" placeholder="Ihre Telefonnummer" required>
 
       <label>E-Mail</label>
-      <input name="email" type="email">
+      <input name="email" type="email" placeholder="Ihre E-Mail-Adresse">
 
       <label>Nachricht</label>
-      <textarea name="nachricht"></textarea>
+      <textarea name="nachricht" placeholder="Möchten Sie uns noch etwas mitteilen?"></textarea>
 
       <button type="submit" id="submitButton">
         Anfrage absenden
       </button>
+
     </form>
 
     <div id="result">
-      <p>Vielen Dank! Ihre Anfrage wurde erfolgreich gespeichert.</p>
-      <a id="whatsappLink" class="button"
-         target="_blank" rel="noopener">
+      <h2>Vielen Dank!</h2>
+      <p>Ihre Anfrage wurde erfolgreich gespeichert.</p>
+      <p>Sie können uns Ihre Angaben zusätzlich direkt per WhatsApp senden.</p>
+      <a id="whatsappLink" class="button" target="_blank" rel="noopener">
         💬 Anfrage per WhatsApp senden
       </a>
     </div>
 
     <a class="back" href="index.html">← Zurück zur Startseite</a>
-  </div>
+
+  </main>
+
+  <footer>
+    TONI'S AUTOMOBILE · LUXURY CARS
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -185,7 +337,7 @@
         }
 
         const message =
-          'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug in Zahlung geben:\n\n' +
+          'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug verkaufen oder in Zahlung geben:\n\n' +
           'Marke: ' + data.marke + '\n' +
           'Modell: ' + data.modell + '\n' +
           'Erstzulassung: ' + data.erstzulassung + '\n' +
@@ -207,6 +359,6 @@
         document.getElementById('result').style.display = 'block';
       });
   </script>
+
 </body>
 </html>
-
