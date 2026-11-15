@@ -1,1 +1,172 @@
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bereits verkauft – Toni's Automobile</title>
+  <meta name="description" content="Entdecken Sie bereits verkaufte Fahrzeuge von Toni's Automobile in Wuppertal.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #080808;
+      background-image:
+        repeating-linear-gradient(45deg, transparent 0px, transparent 18px, rgba(212,175,55,.22) 19px, transparent 21px),
+        repeating-linear-gradient(-45deg, transparent 0px, transparent 18px, rgba(212,175,55,.14) 19px, transparent 21px);
+      background-attachment: fixed;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    header, main, footer {
+      max-width: 1100px;
+      margin: 25px auto;
+    }
+    header, .panel {
+      background: rgba(15,15,15,.96);
+      border: 1px solid #8d742b;
+      border-radius: 12px;
+      padding: 22px;
+    }
+    header { text-align: center; }
+    header img { max-width: 180px; max-height: 100px; object-fit: contain; }
+    h1, h2 { color: #d4af37; }
+    nav { margin-top: 18px; display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
+    nav a, footer a { color: #d4af37; text-decoration: none; }
+    nav a:hover, footer a:hover { text-decoration: underline; }
+    .intro { text-align: center; margin: 35px 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .car {
+      background: rgba(15,15,15,.97);
+      border: 1px solid #8d742b;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .car img { width: 100%; height: 210px; object-fit: cover; display: block; }
+    .car-content { padding: 16px; }
+    .car h3 { margin-top: 0; color: #d4af37; }
+    .sold {
+      display: inline-block;
+      background: #8d2525;
+      color: white;
+      padding: 7px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+    .price { color: #d4af37; font-size: 21px; font-weight: bold; }
+    .muted { color: #bbb; }
+    footer { text-align: center; color: #aaa; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="tonis-logo.jpg" alt="Toni's Automobile Logo"
+         onerror="this.style.display='none'">
+    <h1>Toni's Automobile</h1>
+    <nav>
+      <a href="index.html">Startseite</a>
+      <a href="index.html#autos">Fahrzeuge</a>
+      <a href="index.html#ueber-uns">Über uns</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Bereits verkauft</h2>
+      <p>Diese Fahrzeuge haben bereits einen neuen Besitzer gefunden.</p>
+    </section>
+
+    <div id="soldCars" class="grid">
+      <p class="muted">Verkaufte Fahrzeuge werden geladen ...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© Toni's Automobile – Wuppertal</p>
+    <a href="index.html">Zurück zur Startseite</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://ylgaecxpjpwcqckspfkq.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu';
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;',
+        '"': '&quot;', "'": '&#39;'
+      })[char]);
+    }
+
+    function getImages(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) return value.filter(Boolean);
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+        return parsed ? [parsed] : [];
+      } catch (error) {
+        return [String(value)];
+      }
+    }
+
+    function euro(value) {
+      return Number(value || 0).toLocaleString('de-DE') + ' €';
+    }
+
+    async function loadSoldCars() {
+      const area = document.getElementById('soldCars');
+
+      const { data, error } = await db
+        .from('Fahrzeuge')
+        .select('*')
+        .eq('Status', 'Verkauft')
+        .order('id', { ascending: false });
+
+      if (error) {
+        area.innerHTML = '<p class="muted">Die Fahrzeuge konnten gerade nicht geladen werden.</p>';
+        console.error(error);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        area.innerHTML = '<p class="muted">Aktuell sind noch keine verkauften Fahrzeuge eingetragen.</p>';
+        return;
+      }
+
+      area.innerHTML = data.map(car => {
+        const images = getImages(car.Bilder);
+        const image = images[0] || 'tonis-logo.jpg';
+
+        return `
+          <article class="car">
+            <img src="${esc(image)}" alt="${esc(car.Titel || 'Verkauftes Fahrzeug')}"
+                 onerror="this.onerror=null;this.src='tonis-logo.jpg'">
+            <div class="car-content">
+              <span class="sold">VERKAUFT</span>
+              <h3>${esc(car.Titel || ((car.Marke || '') + ' ' + (car.Modell || '')))}</h3>
+              <p class="muted">
+                ${car.Erstzulassung ? 'Erstzulassung: ' + esc(car.Erstzulassung) + '<br>' : ''}
+                ${car.Kilometer ? 'Kilometer: ' + esc(Number(car.Kilometer).toLocaleString('de-DE')) + ' km' : ''}
+              </p>
+              ${car.Preis ? '<p class="price">' + esc(euro(car.Preis)) + '</p>' : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    loadSoldCars();
+  </script>
+</body>
+</html>
+
