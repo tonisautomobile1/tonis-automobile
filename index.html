@@ -1258,6 +1258,16 @@ function renderCars() {
     return matchesSearch && matchesFuel && matchesPrice && matchesKm;
   });
 
+const priceSort = document.getElementById('priceSort')?.value || '';
+
+if (priceSort === 'asc') {
+  filteredVehicles.sort((a, b) => Number(a.Preis || 0) - Number(b.Preis || 0));
+}
+
+if (priceSort === 'desc') {
+  filteredVehicles.sort((a, b) => Number(b.Preis || 0) - Number(a.Preis || 0));
+}
+
   if (!filteredVehicles.length) {
     area.innerHTML =
       '<p class="muted">Keine passenden Fahrzeuge gefunden.</p>';
