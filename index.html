@@ -20,9 +20,19 @@
 }
 * { box-sizing:border-box; }
 
+
+/* Eleganter Schwarz-Gold-Hintergrund mit feinem Muster */
 body {
   margin: 0;
+
   background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 22px,
+      rgba(212, 175, 55, 0.045) 23px,
+      transparent 24px
+    ),
     radial-gradient(
       ellipse at 15% 15%,
       rgba(212, 175, 55, 0.16),
@@ -39,10 +49,12 @@ body {
       #211b0d 50%,
       #090909 100%
     );
+
   background-attachment: fixed;
   color: #fff;
   font-family: Arial, sans-serif;
 }
+
 
 header {
   padding:18px 5%;
