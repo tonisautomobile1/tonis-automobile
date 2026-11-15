@@ -6,8 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bereits verkauft – Toni's Automobile</title>
   <meta name="description" content="Entdecken Sie bereits verkaufte Fahrzeuge von Toni's Automobile in Wuppertal.">
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       padding: 20px;
@@ -19,37 +21,71 @@
       color: #fff;
       font-family: Arial, sans-serif;
     }
+
     header, main, footer {
       max-width: 1100px;
       margin: 25px auto;
     }
+
     header, .panel {
       background: rgba(15,15,15,.96);
       border: 1px solid #8d742b;
       border-radius: 12px;
       padding: 22px;
     }
+
     header { text-align: center; }
     header img { max-width: 180px; max-height: 100px; object-fit: contain; }
+
     h1, h2 { color: #d4af37; }
-    nav { margin-top: 18px; display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
-    nav a, footer a { color: #d4af37; text-decoration: none; }
+
+    nav {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    nav a, footer a {
+      color: #d4af37;
+      text-decoration: none;
+    }
+
     nav a:hover, footer a:hover { text-decoration: underline; }
+
     .intro { text-align: center; margin: 35px 0; }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
     }
+
     .car {
       background: rgba(15,15,15,.97);
       border: 1px solid #8d742b;
       border-radius: 10px;
       overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
     }
-    .car img { width: 100%; height: 210px; object-fit: cover; display: block; }
+
+    .car:hover {
+      transform: translateY(-4px);
+      border-color: #d4af37;
+    }
+
+    .car > img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+    }
+
     .car-content { padding: 16px; }
     .car h3 { margin-top: 0; color: #d4af37; }
+
     .sold {
       display: inline-block;
       background: #8d2525;
@@ -60,16 +96,62 @@
       font-size: 12px;
       margin-bottom: 12px;
     }
-    .price { color: #d4af37; font-size: 21px; font-weight: bold; }
+
     .muted { color: #bbb; }
     footer { text-align: center; color: #aaa; }
+
+    .detail-value {
+      background: #1b1b1b;
+      border: 1px solid #51451f;
+      border-radius: 7px;
+      padding: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-label {
+      display: block;
+      color: #d4af37;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .thumb {
+      width: 90px;
+      height: 65px;
+      object-fit: cover;
+      border: 2px solid #555;
+      border-radius: 5px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .thumb.active { border-color: #d4af37; }
+
+    .modal-button {
+      background: #d4af37;
+      color: #111;
+      border: 0;
+      padding: 11px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media(max-width:600px) {
+      body { padding: 10px; }
+      #soldModal { padding: 8px !important; }
+      #soldModal > div { padding: 14px !important; margin: 8px auto !important; }
+      #soldMainImage { max-height: 300px !important; }
+    }
   </style>
 </head>
+
 <body>
   <header>
     <img src="tonis-logo.jpg" alt="Toni's Automobile Logo"
          onerror="this.style.display='none'">
     <h1>Toni's Automobile</h1>
+
     <nav>
       <a href="index.html">Startseite</a>
       <a href="index.html#autos">Fahrzeuge</a>
@@ -82,18 +164,21 @@
     <section class="intro">
       <h2>Bereits verkauft</h2>
       <p>Diese Fahrzeuge haben bereits einen neuen Besitzer gefunden.</p>
+      <p class="muted">Klicken Sie auf ein Fahrzeug, um weitere Bilder und Details anzusehen.</p>
     </section>
 
     <div id="soldCars" class="grid">
       <p class="muted">Verkaufte Fahrzeuge werden geladen ...</p>
     </div>
   </main>
+
+  <!-- Fahrzeug-Detailfenster -->
   <div id="soldModal" style="
     display:none;
     position:fixed;
     inset:0;
     z-index:9999;
-    background:rgba(0,0,0,.95);
+    background:rgba(0,0,0,.96);
     overflow-y:auto;
     padding:20px;
   ">
@@ -106,19 +191,13 @@
       padding:20px;
       position:relative;
     ">
-      <button onclick="closeSoldDetails()" style="
-        position:absolute;
-        right:15px;
-        top:15px;
-        background:#d4af37;
-        color:#111;
-        border:0;
-        padding:10px 15px;
-        border-radius:6px;
-        font-weight:bold;
-        cursor:pointer;
+
+      <button class="modal-button" onclick="closeSoldDetails()" style="
+        display:block;
+        margin-left:auto;
       ">✕ Schließen</button>
 
+      <span class="sold">VERKAUFT</span>
       <h2 id="soldTitle">Fahrzeugdetails</h2>
 
       <div style="position:relative;">
@@ -129,8 +208,12 @@
           background:#000;
           border-radius:8px;
         ">
-        <button onclick="changeSoldImage(-1)" style="position:absolute;left:10px;top:45%;padding:12px;background:#d4af37;border:0;border-radius:6px;">❮</button>
-        <button onclick="changeSoldImage(1)" style="position:absolute;right:10px;top:45%;padding:12px;background:#d4af37;border:0;border-radius:6px;">❯</button>
+
+        <button class="modal-button" onclick="changeSoldImage(-1)"
+          style="position:absolute;left:10px;top:45%;">❮</button>
+
+        <button class="modal-button" onclick="changeSoldImage(1)"
+          style="position:absolute;right:10px;top:45%;">❯</button>
       </div>
 
       <div id="soldThumbnails" style="
@@ -140,6 +223,7 @@
         margin:12px 0;
       "></div>
 
+      <h3 style="color:#d4af37;">Fahrzeugdaten</h3>
       <div id="soldDetails" style="
         display:grid;
         grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -155,38 +239,50 @@
       <p id="soldEquipment" style="color:#ddd;white-space:pre-wrap;"></p>
     </div>
   </div>
+
   <footer>
     <p>© Toni's Automobile – Wuppertal</p>
     <a href="index.html">Zurück zur Startseite</a>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
     const SUPABASE_URL = 'https://ylgaecxpjpwcqckspfkq.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu';
+
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let soldVehicles = [];
+    let currentSoldImages = [];
+    let currentSoldImageIndex = 0;
 
     function esc(value) {
       return String(value ?? '').replace(/[&<>"']/g, char => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;',
-        '"': '&quot;', "'": '&#39;'
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
       })[char]);
     }
 
     function getImages(value) {
       if (!value) return [];
-      if (Array.isArray(value)) return value.filter(Boolean);
+
+      if (Array.isArray(value)) {
+        return value.filter(Boolean);
+      }
+
       try {
         const parsed = JSON.parse(value);
+
         if (Array.isArray(parsed)) return parsed.filter(Boolean);
+
         return parsed ? [parsed] : [];
       } catch (error) {
         return [String(value)];
       }
-    }
-
-    function euro(value) {
-      return Number(value || 0).toLocaleString('de-DE') + ' €';
     }
 
     async function loadSoldCars() {
@@ -204,35 +300,159 @@
         return;
       }
 
-      if (!data || data.length === 0) {
+      soldVehicles = data || [];
+
+      if (soldVehicles.length === 0) {
         area.innerHTML = '<p class="muted">Aktuell sind noch keine verkauften Fahrzeuge eingetragen.</p>';
         return;
       }
 
-      area.innerHTML = data.map(car => {
+      area.innerHTML = soldVehicles.map((car, index) => {
         const images = getImages(car.Bilder);
         const image = images[0] || 'tonis-logo.jpg';
 
+        const title = car.Titel ||
+          ((car.Marke || '') + ' ' + (car.Modell || ''));
+
         return `
-          <article class="car">
-            <img src="${esc(image)}" alt="${esc(car.Titel || 'Verkauftes Fahrzeug')}"
+          <article class="car" onclick="openSoldDetails(${index})">
+            <img src="${esc(image)}"
+                 alt="${esc(title)}"
                  onerror="this.onerror=null;this.src='tonis-logo.jpg'">
+
             <div class="car-content">
               <span class="sold">VERKAUFT</span>
-              <h3>${esc(car.Titel || ((car.Marke || '') + ' ' + (car.Modell || '')))}</h3>
+              <h3>${esc(title)}</h3>
+
               <p class="muted">
                 ${car.Erstzulassung ? 'Erstzulassung: ' + esc(car.Erstzulassung) + '<br>' : ''}
                 ${car.Kilometer ? 'Kilometer: ' + esc(Number(car.Kilometer).toLocaleString('de-DE')) + ' km' : ''}
               </p>
-              ${car.Preis ? '<p class="price">' + esc(euro(car.Preis)) + '</p>' : ''}
+
+              <p style="color:#d4af37;font-weight:bold;">
+                Fahrzeug ansehen →
+              </p>
             </div>
           </article>
         `;
       }).join('');
     }
 
+    function openSoldDetails(index) {
+      const car = soldVehicles[index];
+      if (!car) return;
+
+      currentSoldImages = getImages(car.Bilder);
+      currentSoldImageIndex = 0;
+
+      const title = car.Titel ||
+        ((car.Marke || '') + ' ' + (car.Modell || ''));
+
+      document.getElementById('soldTitle').textContent = title;
+
+      const fields = [
+        ['Marke', car.Marke],
+        ['Modell', car.Modell],
+        ['Erstzulassung', car.Erstzulassung],
+        ['Kilometer', car.Kilometer ? Number(car.Kilometer).toLocaleString('de-DE') + ' km' : ''],
+        ['Leistung', car['Leistung PS'] ? car['Leistung PS'] + ' PS' : ''],
+        ['Kraftstoff', car.Kraftstoff],
+        ['Getriebe', car.Getriebe],
+        ['HU bis', car['HU bis']],
+        ['Fahrzeugtyp', car.Fahrzeugtyp],
+        ['Anzahl Türen', car['Anzahl Türen']],
+        ['Umweltplakette', car.Umweltplakette],
+        ['Schadstoffklasse', car.Schadstoffklasse],
+        ['Außenfarbe', car.Außenfarbe],
+        ['Innenausstattung', car['Material Innenausstattung']],
+        ['Fahrzeugzustand', car['Fahrzeugzustand']]
+      ];
+
+      document.getElementById('soldDetails').innerHTML =
+        fields
+          .filter(([label, value]) => value !== undefined && value !== null && value !== '')
+          .map(([label, value]) => `
+            <div class="detail-value">
+              <span class="detail-label">${esc(label)}</span>
+              ${esc(value)}
+            </div>
+          `).join('');
+
+      document.getElementById('soldDescription').textContent =
+        car.Beschreibung || 'Keine Beschreibung vorhanden.';
+
+      const equipment =
+        car.Ausstattung ||
+        car.Ausstattungsliste ||
+        car.Extras ||
+        '';
+
+      document.getElementById('soldEquipment').textContent =
+        Array.isArray(equipment)
+          ? equipment.join(', ')
+          : (equipment || 'Keine Ausstattungsangaben vorhanden.');
+
+      showSoldImage();
+
+      document.getElementById('soldModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function showSoldImage() {
+      const mainImage = document.getElementById('soldMainImage');
+      const thumbnails = document.getElementById('soldThumbnails');
+
+      if (currentSoldImages.length === 0) {
+        mainImage.src = 'tonis-logo.jpg';
+        thumbnails.innerHTML = '';
+        return;
+      }
+
+      mainImage.src = currentSoldImages[currentSoldImageIndex];
+
+      thumbnails.innerHTML = currentSoldImages.map((image, index) => `
+        <img
+          src="${esc(image)}"
+          class="thumb ${index === currentSoldImageIndex ? 'active' : ''}"
+          onclick="selectSoldImage(${index})"
+          alt="Fahrzeugbild ${index + 1}"
+        >
+      `).join('');
+    }
+
+    function changeSoldImage(direction) {
+      if (currentSoldImages.length === 0) return;
+
+      currentSoldImageIndex =
+        (currentSoldImageIndex + direction + currentSoldImages.length)
+        % currentSoldImages.length;
+
+      showSoldImage();
+    }
+
+    function selectSoldImage(index) {
+      currentSoldImageIndex = index;
+      showSoldImage();
+    }
+
+    function closeSoldDetails() {
+      document.getElementById('soldModal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('soldModal').addEventListener('click', function(event) {
+      if (event.target === this) closeSoldDetails();
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (document.getElementById('soldModal').style.display !== 'block') return;
+
+      if (event.key === 'Escape') closeSoldDetails();
+      if (event.key === 'ArrowRight') changeSoldImage(1);
+      if (event.key === 'ArrowLeft') changeSoldImage(-1);
+    });
+
     loadSoldCars();
   </script>
 </body>
 </html>
-
