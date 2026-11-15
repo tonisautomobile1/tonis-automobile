@@ -21,27 +21,25 @@
 * { box-sizing:border-box; }
 
 
-/* Eleganter Schwarz-Gold-Hintergrund mit feinem Muster */
+/* Schwarz-Gold mit sichtbarem Luxus-Muster */
 body {
   margin: 0;
-
   background:
     repeating-linear-gradient(
-      135deg,
+      45deg,
       transparent 0px,
-      transparent 22px,
-      rgba(212, 175, 55, 0.045) 23px,
-      transparent 24px
+      transparent 24px,
+      rgba(212, 175, 55, 0.16) 25px,
+      transparent 26px,
+      transparent 48px
     ),
-    radial-gradient(
-      ellipse at 15% 15%,
-      rgba(212, 175, 55, 0.16),
-      transparent 40%
-    ),
-    radial-gradient(
-      ellipse at 85% 65%,
-      rgba(212, 175, 55, 0.12),
-      transparent 42%
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 24px,
+      rgba(212, 175, 55, 0.10) 25px,
+      transparent 26px,
+      transparent 48px
     ),
     linear-gradient(
       135deg,
@@ -54,6 +52,7 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
 }
+
 
 
 header {
