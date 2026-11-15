@@ -183,16 +183,21 @@ small { color:#aaa; }
   justify-content: center;
   align-items: flex-start;
 }
+
 .vehicle-modal-content {
   position: relative;
   width: 100%;
-  max-width: 950px;
+  max-width: 1050px;
+  max-height: 92vh;
+  overflow-y: auto;
   margin: 25px auto;
-  padding: 25px;
+  padding: 30px;
   background: var(--panel);
   border: 1px solid var(--gold);
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.65);
 }
+
 .vehicle-modal-close {
   position: absolute;
   top: 10px;
