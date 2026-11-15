@@ -1760,14 +1760,33 @@ async function saveCar() {
 
 /* FAHRZEUG LÖSCHEN */
 
-async function deleteCar(id) {
-  if (!isAdmin) return;
 
-  if (!confirm('Möchtest du dieses Fahrzeug wirklich löschen?')) {
+async function deleteCar(id) {
+  if (!isAdmin) {
+    alert('Du bist nicht berechtigt, Fahrzeuge zu löschen.');
     return;
   }
 
-  const {error} = await db
+  const car = vehicles.find(v => Number(v.id) === Number(id));
+
+  if (!car) {
+    alert('Fahrzeug wurde nicht gefunden.');
+    return;
+  }
+
+  const istVerkauft = String(car.Status || '').trim().toLowerCase() === 'verkauft';
+
+  const titel = car.Titel || ((car.Marke || '') + ' ' + (car.Modell || ''));
+
+  const nachricht = istVerkauft
+    ? 'Möchtest du das verkaufte Fahrzeug "' + titel + '" wirklich endgültig löschen? Es verschwindet auch aus der Seite "Bereits verkauft".'
+    : 'Möchtest du das Fahrzeug "' + titel + '" wirklich endgültig löschen?';
+
+  if (!confirm(nachricht)) {
+    return;
+  }
+
+  const { error } = await db
     .from('Fahrzeuge')
     .delete()
     .eq('id', id);
@@ -1777,8 +1796,11 @@ async function deleteCar(id) {
     return;
   }
 
+  alert('Fahrzeug wurde erfolgreich gelöscht.');
+
   await loadCars();
 }
+
 
 /* ÖFFENTLICHE BEWERTUNGEN LADEN */
 
