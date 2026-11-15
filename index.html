@@ -449,10 +449,47 @@ p, label, input, select, textarea, button {
   <p><strong>Toni's Automobile – Luxury Cars</strong></p>
 </section>
 
+
 <section id="autos">
   <h2>Unsere Fahrzeuge</h2>
+
+  <div class="panel" style="margin-bottom:20px;">
+    <input
+      type="text"
+      id="carSearch"
+      placeholder="🔍 Marke, Modell oder Fahrzeug suchen..."
+      oninput="renderCars()"
+      style="width:100%;padding:13px;margin-bottom:12px;"
+    >
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+      <select id="fuelFilter" onchange="renderCars()">
+        <option value="">Alle Kraftstoffe</option>
+        <option value="Benzin">Benzin</option>
+        <option value="Diesel">Diesel</option>
+        <option value="Elektro">Elektro</option>
+        <option value="Hybrid">Hybrid</option>
+      </select>
+
+      <input
+        type="number"
+        id="maxPrice"
+        placeholder="Maximaler Preis in €"
+        oninput="renderCars()"
+      >
+
+      <input
+        type="number"
+        id="maxKm"
+        placeholder="Maximale Kilometer"
+        oninput="renderCars()"
+      >
+    </div>
+  </div>
+
   <div id="cars" class="grid">Fahrzeuge werden geladen …</div>
 </section>
+
 <!-- FAHRZEUG-DETAILFENSTER -->
 <div id="vehicleModal" class="vehicle-modal"
      onclick="closeVehicleModal(event)">
