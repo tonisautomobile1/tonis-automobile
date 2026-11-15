@@ -8,11 +8,29 @@
   <meta name="description" content="Toni's Automobile kauft Ihr Fahrzeug oder nimmt es in Zahlung. Senden Sie uns Ihre Fahrzeugdaten.">
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      background: #101010;
+      background-color: #080808;
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0px,
+          transparent 18px,
+          rgba(212,175,55,.22) 19px,
+          transparent 21px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          transparent 0px,
+          transparent 18px,
+          rgba(212,175,55,.14) 19px,
+          transparent 21px
+        );
+      background-attachment: fixed;
       color: #f5f5f5;
       font-family: Arial, sans-serif;
       font-size: 17px;
@@ -22,8 +40,8 @@
     header {
       text-align: center;
       padding: 35px 20px 25px;
-      background: linear-gradient(180deg, #080808, #191919);
-      border-bottom: 1px solid #b99a55;
+      background: rgba(8,8,8,.94);
+      border-bottom: 1px solid #d4af37;
     }
 
     .logo {
@@ -35,7 +53,7 @@
     }
 
     .brand {
-      color: #d5b66a;
+      color: #d4af37;
       font-size: 27px;
       font-weight: bold;
       letter-spacing: 3px;
@@ -57,14 +75,15 @@
     }
 
     .hero h1 {
-      color: #d5b66a;
+      color: #d4af37;
       font-size: clamp(27px, 5vw, 39px);
       line-height: 1.2;
       margin: 0 0 15px;
+      text-shadow: 0 2px 12px rgba(212,175,55,.15);
     }
 
     .hero p {
-      color: #ccc;
+      color: #ddd;
       max-width: 650px;
       margin: auto;
     }
@@ -78,7 +97,8 @@
     }
 
     .benefit {
-      border: 1px solid #6f5b31;
+      border: 1px solid #8e7537;
+      background: rgba(15,15,15,.8);
       border-radius: 30px;
       padding: 8px 15px;
       color: #e0c47e;
@@ -89,14 +109,14 @@
       max-width: 720px;
       margin: 10px auto 40px;
       padding: 28px;
-      background: #1b1b1b;
-      border: 1px solid #8e753e;
+      background: rgba(18,18,18,.96);
+      border: 1px solid #d4af37;
       border-radius: 14px;
-      box-shadow: 0 12px 35px rgba(0,0,0,.35);
+      box-shadow: 0 12px 35px rgba(0,0,0,.55);
     }
 
     h2 {
-      color: #d5b66a;
+      color: #d4af37;
       font-size: 22px;
       margin: 12px 0 5px;
     }
@@ -111,39 +131,59 @@
       display: block;
       margin-top: 15px;
       font-weight: bold;
-      color: #eee;
+      color: #e0c47e;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       width: 100%;
       padding: 14px;
       margin-top: 6px;
-      border: 1px solid #555;
+      border: 1px solid #62532f;
       border-radius: 7px;
-      background: #292929;
+      background: #202020;
       color: white;
       font-size: 16px;
+      font-family: Arial, sans-serif;
     }
 
-    input:focus, textarea:focus, select:focus {
+    input:focus,
+    textarea:focus,
+    select:focus {
       outline: none;
-      border-color: #d5b66a;
+      border-color: #d4af37;
+      box-shadow: 0 0 7px rgba(212,175,55,.2);
     }
 
-    textarea { min-height: 105px; resize: vertical; }
+    input[type="file"] {
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #999;
+    }
+
+    textarea {
+      min-height: 105px;
+      resize: vertical;
+    }
 
     .divider {
       height: 1px;
-      background: #51452e;
+      background: #8e7537;
       margin: 28px 0;
     }
 
-    button, .button {
+    button,
+    .button {
       display: block;
       width: 100%;
       padding: 15px;
       margin-top: 25px;
-      border: none;
+      border: 1px solid #d4af37;
       border-radius: 7px;
       background: linear-gradient(135deg, #e0c47e, #b18d43);
       color: #111;
@@ -152,36 +192,52 @@
       text-align: center;
       text-decoration: none;
       cursor: pointer;
+      transition: .2s;
     }
 
-    button:disabled { opacity: .6; }
+    button:hover,
+    .button:hover {
+      background: linear-gradient(135deg, #f0d994, #c6a04d);
+      box-shadow: 0 0 14px rgba(212,175,55,.25);
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
 
     #result {
       display: none;
       margin-top: 22px;
       padding: 20px;
-      border: 1px solid #c5a45b;
+      background: rgba(25,25,25,.95);
+      border: 1px solid #d4af37;
       border-radius: 9px;
       text-align: center;
     }
 
-    #result h2 { margin-top: 0; }
+    #result h2 {
+      margin-top: 0;
+    }
 
     .back {
       display: block;
       margin-top: 25px;
-      color: #d5b66a;
+      color: #d4af37;
       text-align: center;
       text-decoration: none;
     }
 
-    .back:hover { text-decoration: underline; }
+    .back:hover {
+      text-decoration: underline;
+    }
 
     footer {
       padding: 22px;
       text-align: center;
-      color: #888;
-      border-top: 1px solid #393027;
+      color: #aaa;
+      background: rgba(8,8,8,.94);
+      border-top: 1px solid #d4af37;
       font-size: 13px;
     }
 
@@ -191,8 +247,13 @@
         padding: 20px 16px;
       }
 
-      .brand { font-size: 23px; }
-      .hero { padding-top: 30px; }
+      .brand {
+        font-size: 23px;
+      }
+
+      .hero {
+        padding-top: 30px;
+      }
     }
   </style>
 </head>
@@ -264,16 +325,17 @@
       <label>Ihre Preisvorstellung</label>
       <input name="preisvorstellung" placeholder="z. B. 12.000 €">
 
-<label>📸 Fahrzeugbilder hochladen</label>
-<input
-  type="file"
-  id="fahrzeugbilder"
-  accept="image/*"
-  multiple
->
-<p style="color:#aaa; font-size:13px;">
-  Bis zu 8 Fotos auswählen (maximal 5 MB pro Bild).
-</p>
+      <label>📸 Fahrzeugbilder hochladen</label>
+      <input
+        type="file"
+        id="fahrzeugbilder"
+        accept="image/*"
+        multiple
+      >
+
+      <p style="color:#aaa; font-size:13px;">
+        Bis zu 8 Fotos auswählen (maximal 5 MB pro Bild).
+      </p>
 
       <div class="divider"></div>
 
@@ -323,100 +385,98 @@
       'sb_publishable_4Hn0yxRkfGcezH9WCQCuIQ_-SQuKnJu'
     );
 
-    
-document.getElementById('tradeInForm')
-  .addEventListener('submit', async function(event) {
-    event.preventDefault();
+    document.getElementById('tradeInForm')
+      .addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-    const form = event.target;
-    const button = document.getElementById('submitButton');
-    const data = Object.fromEntries(
-      new FormData(form).entries()
-    );
+        const form = event.target;
+        const button = document.getElementById('submitButton');
+        const data = Object.fromEntries(
+          new FormData(form).entries()
+        );
 
-    const fileInput = document.getElementById('fahrzeugbilder');
-    const files = Array.from(fileInput.files);
+        const fileInput = document.getElementById('fahrzeugbilder');
+        const files = Array.from(fileInput.files);
 
-    if (files.length > 8) {
-      alert('Bitte maximal 8 Bilder auswählen.');
-      return;
-    }
+        if (files.length > 8) {
+          alert('Bitte maximal 8 Bilder auswählen.');
+          return;
+        }
 
-    for (const file of files) {
-      if (!file.type.startsWith('image/')) {
-        alert('Bitte nur Bilddateien auswählen.');
-        return;
-      }
+        for (const file of files) {
+          if (!file.type.startsWith('image/')) {
+            alert('Bitte nur Bilddateien auswählen.');
+            return;
+          }
 
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Jedes Bild darf maximal 5 MB groß sein.');
-        return;
-      }
-    }
+          if (file.size > 5 * 1024 * 1024) {
+            alert('Jedes Bild darf maximal 5 MB groß sein.');
+            return;
+          }
+        }
 
-    button.disabled = true;
-    button.textContent = 'Bilder werden gespeichert ...';
+        button.disabled = true;
+        button.textContent = 'Bilder werden gespeichert ...';
 
-    const uploadedPaths = [];
-    const folder = 'anfragen/' + crypto.randomUUID();
+        const uploadedPaths = [];
+        const folder = 'anfragen/' + crypto.randomUUID();
 
-    try {
-      for (const file of files) {
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-        const path = folder + '/' + safeName;
+        try {
+          for (const file of files) {
+            const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const path = folder + '/' + safeName;
 
-        const { error: uploadError } = await db.storage
-          .from('Inzahlungnahme-Bilder')
-          .upload(path, file, {
-            upsert: false,
-            contentType: file.type
-          });
+            const { error: uploadError } = await db.storage
+              .from('Inzahlungnahme-Bilder')
+              .upload(path, file, {
+                upsert: false,
+                contentType: file.type
+              });
 
-        if (uploadError) throw uploadError;
+            if (uploadError) throw uploadError;
 
-        uploadedPaths.push(path);
-      }
+            uploadedPaths.push(path);
+          }
 
-      data.bilder = JSON.stringify(uploadedPaths);
+          data.bilder = JSON.stringify(uploadedPaths);
 
-      button.textContent = 'Anfrage wird gespeichert ...';
+          button.textContent = 'Anfrage wird gespeichert ...';
 
-      const { error } = await db
-        .from('Inzahlungnahmen')
-        .insert([data]);
+          const { error } = await db
+            .from('Inzahlungnahmen')
+            .insert([data]);
 
-      if (error) throw error;
+          if (error) throw error;
 
-      const message =
-        'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug verkaufen oder in Zahlung geben:\n\n' +
-        'Marke: ' + data.marke + '\n' +
-        'Modell: ' + data.modell + '\n' +
-        'Erstzulassung: ' + data.erstzulassung + '\n' +
-        'Kilometerstand: ' + data.kilometerstand + '\n' +
-        'Kraftstoff: ' + data.kraftstoff + '\n' +
-        'Getriebe: ' + data.getriebe + '\n' +
-        'Zustand: ' + data.zustand + '\n' +
-        'Preisvorstellung: ' + data.preisvorstellung + '\n\n' +
-        'Name: ' + data.name + '\n' +
-        'Telefon: ' + data.telefon + '\n' +
-        'E-Mail: ' + data.email + '\n' +
-        'Nachricht: ' + data.nachricht;
+          const message =
+            'Hallo Toni\'s Automobile, ich möchte mein Fahrzeug verkaufen oder in Zahlung geben:\n\n' +
+            'Marke: ' + data.marke + '\n' +
+            'Modell: ' + data.modell + '\n' +
+            'Erstzulassung: ' + data.erstzulassung + '\n' +
+            'Kilometerstand: ' + data.kilometerstand + '\n' +
+            'Kraftstoff: ' + data.kraftstoff + '\n' +
+            'Getriebe: ' + data.getriebe + '\n' +
+            'Zustand: ' + data.zustand + '\n' +
+            'Preisvorstellung: ' + data.preisvorstellung + '\n\n' +
+            'Name: ' + data.name + '\n' +
+            'Telefon: ' + data.telefon + '\n' +
+            'E-Mail: ' + data.email + '\n' +
+            'Nachricht: ' + data.nachricht;
 
-      document.getElementById('whatsappLink').href =
-        'https://wa.me/4917683412627?text=' +
-        encodeURIComponent(message);
+          document.getElementById('whatsappLink').href =
+            'https://wa.me/4917683412627?text=' +
+            encodeURIComponent(message);
 
-      form.style.display = 'none';
-      document.getElementById('result').style.display = 'block';
+          form.style.display = 'none';
+          document.getElementById('result').style.display = 'block';
 
-    } catch (error) {
-      alert('Fehler beim Speichern: ' + error.message);
-      console.error(error);
-      button.disabled = false;
-      button.textContent = 'Anfrage absenden';
-    }
-  });
-
+        } catch (error) {
+          alert('Fehler beim Speichern: ' + error.message);
+          console.error(error);
+          button.disabled = false;
+          button.textContent = 'Anfrage absenden';
+        }
+      });
   </script>
 
 </body>
