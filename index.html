@@ -1583,23 +1583,40 @@ function resetForm() {
 
 /* FAHRZEUGE VERWALTEN */
 
+
 function renderManage() {
   const area = document.getElementById('manageCars');
 
   area.innerHTML = vehicles.map(car => `
-    <p>
+    <div style="
+      padding:12px;
+      margin:10px 0;
+      background:#171717;
+      border:1px solid #8d742b;
+      border-radius:8px;
+    ">
       <b>${esc(car.Titel || ((car.Marke || '') + ' ' + (car.Modell || '')))}</b>
-      – ${esc(car.Status || '')}
+
+      <br>
+
+      <span style="color:#d4af37;">
+        Status: ${esc(car.Status || 'Verfügbar')}
+      </span>
+
+      <br><br>
+
       <button type="button" onclick="editCar(${Number(car.id)})">
         Bearbeiten
       </button>
+
       <button type="button" class="secondary"
         onclick="deleteCar(${Number(car.id)})">
-        Löschen
+        Endgültig löschen
       </button>
-    </p>
+    </div>
   `).join('') || '<p>Keine Fahrzeuge vorhanden.</p>';
 }
+
 
 /* FAHRZEUG BEARBEITEN */
 
