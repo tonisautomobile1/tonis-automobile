@@ -484,6 +484,13 @@ p, label, input, select, textarea, button {
         placeholder="Maximale Kilometer"
         oninput="renderCars()"
       >
+      
+<select id="priceSort" onchange="renderCars()">
+  <option value="">Standardsortierung</option>
+  <option value="asc">Preis: günstigster zuerst</option>
+  <option value="desc">Preis: teuerster zuerst</option>
+</select>
+
     </div>
   </div>
 
