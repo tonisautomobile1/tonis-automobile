@@ -1392,11 +1392,13 @@ function renderCars() {
   const maxKm = Number(document.getElementById('maxKm')?.value || 0);
 
   const filteredVehicles = vehicles.filter(car => {
-    const title = (
-      (car.Titel || '') + ' ' +
-      (car.Marke || '') + ' ' +
-      (car.Modell || '')
-    ).toLowerCase();
+  if (String(car.Status || '').trim().toLowerCase() === 'verkauft') return false;
+
+  const title = (
+    (car.Titel || '') + ' ' +
+    (car.Marke || '') + ' ' +
+    (car.Modell || '')
+  ).toLowerCase();
 
     const matchesSearch = title.includes(search);
     const matchesFuel = !fuel || car.Kraftstoff === fuel;
