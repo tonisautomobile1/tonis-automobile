@@ -1227,16 +1227,38 @@ async function loadCars() {
 
 
 
+
 function renderCars() {
   const area = document.getElementById('cars');
 
-  if (!vehicles.length) {
+  const search = (document.getElementById('carSearch')?.value || '').toLowerCase().trim();
+  const fuel = document.getElementById('fuelFilter')?.value || '';
+  const maxPrice = Number(document.getElementById('maxPrice')?.value || 0);
+  const maxKm = Number(document.getElementById('maxKm')?.value || 0);
+
+  const filteredVehicles = vehicles.filter(car => {
+    const title = (
+      (car.Titel || '') + ' ' +
+      (car.Marke || '') + ' ' +
+      (car.Modell || '')
+    ).toLowerCase();
+
+    const matchesSearch = title.includes(search);
+    const matchesFuel = !fuel || car.Kraftstoff === fuel;
+    const matchesPrice = !maxPrice || Number(car.Preis || 0) <= maxPrice;
+    const matchesKm = !maxKm || Number(car.Kilometer || 0) <= maxKm;
+
+    return matchesSearch && matchesFuel && matchesPrice && matchesKm;
+  });
+
+  if (!filteredVehicles.length) {
     area.innerHTML =
-      '<p class="muted">Aktuell sind keine Fahrzeuge eingetragen.</p>';
+      '<p class="muted">Keine passenden Fahrzeuge gefunden.</p>';
     return;
   }
 
-  area.innerHTML = vehicles.map((car, index) => {
+  area.innerHTML = filteredVehicles.map(car => {
+    const index = vehicles.indexOf(car);
     const images = getImages(car.Bilder);
     const image = images[0] || '';
     const title = car.Titel ||
