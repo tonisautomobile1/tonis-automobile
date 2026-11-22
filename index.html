@@ -1302,10 +1302,9 @@ const details = [
     'https://wa.me/' + WHATSAPP_NUMBER + '?text=' +
     encodeURIComponent('Hallo, ich interessiere mich für den ' + title + '.');
 
-  document.getElementById('vehicleModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+document.getElementById('vehicleModal').classList.add('open');
+document.body.style.overflow = 'hidden';
 }
-
 function selectVehicleImage(index) {
   if (!modalImages[index]) return;
 
