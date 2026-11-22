@@ -1392,13 +1392,13 @@ function renderCars() {
   const maxKm = Number(document.getElementById('maxKm')?.value || 0);
 
   const filteredVehicles = vehicles.filter(car => {
-  if (String(car.Status || '').trim().toLowerCase() === 'verkauft') return false;
+    if (String(car.Status || '').trim().toLowerCase() === 'verkauft') return false;
 
-  const title = (
-    (car.Titel || '') + ' ' +
-    (car.Marke || '') + ' ' +
-    (car.Modell || '')
-  ).toLowerCase();
+    const title = (
+      (car.Titel || '') + ' ' +
+      (car.Marke || '') + ' ' +
+      (car.Modell || '')
+    ).toLowerCase();
 
     const matchesSearch = title.includes(search);
     const matchesFuel = !fuel || car.Kraftstoff === fuel;
@@ -1408,15 +1408,15 @@ function renderCars() {
     return matchesSearch && matchesFuel && matchesPrice && matchesKm;
   });
 
-const priceSort = document.getElementById('priceSort')?.value || '';
+  const priceSort = document.getElementById('priceSort')?.value || '';
 
-if (priceSort === 'asc') {
-  filteredVehicles.sort((a, b) => Number(a.Preis || 0) - Number(b.Preis || 0));
-}
+  if (priceSort === 'asc') {
+    filteredVehicles.sort((a, b) => Number(a.Preis || 0) - Number(b.Preis || 0));
+  }
 
-if (priceSort === 'desc') {
-  filteredVehicles.sort((a, b) => Number(b.Preis || 0) - Number(a.Preis || 0));
-}
+  if (priceSort === 'desc') {
+    filteredVehicles.sort((a, b) => Number(b.Preis || 0) - Number(a.Preis || 0));
+  }
 
   if (!filteredVehicles.length) {
     area.innerHTML =
@@ -1467,7 +1467,7 @@ if (priceSort === 'desc') {
              onclick="event.stopPropagation()"
              target="_blank"
              rel="noopener"
-             href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hallo, ich interessiere mich für ' + title)}">
+             href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hallo, ich interessiere mich für den ' + title + '.')}">
             Anfragen
           </a>
         </div>
